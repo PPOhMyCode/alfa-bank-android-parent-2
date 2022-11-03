@@ -10,4 +10,13 @@
     <string name="menu_home">Home</string>
     <string name="menu_gallery">Gallery</string>
     <string name="menu_slideshow">Slideshow</string>
+
+
+    <string name="authorization">Авторизация</string>
+    <string name="input_login">Введите логин</string>
+    <string name="input_password">Введите пароль</string>
+    <string name="input_pin">Введите pin-code</string>
+    <string name="input_second_time_pin">Введите pin-code повторно</string>
+    <string name="logIn">Авторизоваться</string>
+    <string name="one">1</string>
 </resources>

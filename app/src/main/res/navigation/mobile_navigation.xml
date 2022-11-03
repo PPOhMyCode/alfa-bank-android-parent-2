@@ -3,23 +3,54 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/mobile_navigation"
-    app:startDestination="@+id/nav_home">
+    app:startDestination="@id/splash_Screen">
 
     <fragment
-        android:id="@+id/nav_home"
-        android:name="com.example.alfa_bank_android_app_parent_2.ui.home.HomeFragment"
-        android:label="@string/menu_home"
-        tools:layout="@layout/fragment_home" />
-
+        android:id="@+id/splash_Screen"
+        android:name="com.example.alfa_bank_android_app_parent_2.ui.splashscreen.SplashScreenFragment"
+        android:label="fragment_splash__screen"
+        tools:layout="@layout/fragment_splash__screen" >
+        <action
+            android:id="@+id/action_splash_Screen_to_authentication"
+            app:destination="@id/authentication" />
+        <action
+            android:id="@+id/action_splash_Screen_to_authorization"
+            app:destination="@id/authorization" />
+    </fragment>
     <fragment
-        android:id="@+id/nav_gallery"
-        android:name="com.example.alfa_bank_android_app_parent_2.ui.gallery.GalleryFragment"
-        android:label="@string/menu_gallery"
-        tools:layout="@layout/fragment_gallery" />
-
+        android:id="@+id/authentication"
+        android:name="com.example.alfa_bank_android_app_parent_2.ui.authentication.AuthenticationFragment"
+        android:label="fragment_authentication"
+        tools:layout="@layout/fragment_authentication" >
+        <argument
+            android:name="authenticationMode"
+            app:argType="com.example.alfa_bank_android_app_parent_2.domain.entiies.AuthenticationMode" />
+        <action
+            android:id="@+id/action_authentication_self"
+            app:destination="@id/authentication" />
+        <argument
+            android:name="pin"
+            app:argType="string"
+            app:nullable="true" />
+        <action
+            android:id="@+id/action_authentication_to_menuFragment"
+            app:destination="@id/menuFragment" />
+        <action
+            android:id="@+id/action_authentication_to_authorization"
+            app:destination="@id/authorization" />
+    </fragment>
     <fragment
-        android:id="@+id/nav_slideshow"
-        android:name="com.example.alfa_bank_android_app_parent_2.ui.slideshow.SlideshowFragment"
-        android:label="@string/menu_slideshow"
-        tools:layout="@layout/fragment_slideshow" />
+        android:id="@+id/menuFragment"
+        android:name="com.example.alfa_bank_android_app_parent_2.ui.menu.MenuFragment"
+        android:label="fragment_menu"
+        tools:layout="@layout/fragment_menu" />
+    <fragment
+        android:id="@+id/authorization"
+        android:name="com.example.alfa_bank_android_app_parent_2.ui.authorization.AuthorizationFragment"
+        android:label="fragment_authorization"
+        tools:layout="@layout/fragment_authorization" >
+        <action
+            android:id="@+id/action_authorization_to_authentication"
+            app:destination="@id/authentication" />
+    </fragment>
 </navigation>

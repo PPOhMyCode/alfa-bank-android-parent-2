@@ -1,5 +1,6 @@
 package com.example.alfa_bank_android_app_parent_2.ui.authentication
 
+import android.content.Intent
 import androidx.lifecycle.ViewModelProvider
 import android.os.Bundle
 import androidx.fragment.app.Fragment
@@ -20,6 +21,8 @@ import com.example.alfa_bank_android_app_parent_2.ui.adapters.AuthenticationCard
 import com.example.alfa_bank_android_app_parent_2.R
 import com.example.alfa_bank_android_app_parent_2.databinding.FragmentAuthenticationBinding
 import com.example.alfa_bank_android_app_parent_2.domain.entiies.AuthenticationMode
+import com.example.alfa_bank_android_app_parent_2.ui.AuthorizationActivity
+import com.example.alfa_bank_android_app_parent_2.ui.MainActivity
 import java.util.concurrent.Executor
 
 
@@ -126,9 +129,10 @@ class AuthenticationFragment : Fragment() {
                 }
                 viewModel.preferences.isUserLogged = true
                 viewModel.pinClass.removePin()
-                findNavController().navigate(
-                    AuthenticationFragmentDirections.actionAuthenticationToMenuFragment()
-                )
+                val activity = requireActivity()
+                val intent = Intent(activity,MainActivity::class.java)
+                activity.startActivity(intent)
+                activity.finish()
             } else {
                 for (circle in viewModel.pinClass.circles) {
                     animateIncorrectPasswordView(circle, 6, 140f, 20f)
@@ -181,9 +185,10 @@ class AuthenticationFragment : Fragment() {
         if (views.size < 4)
             return
         if (deep - 1 == count) {
-            findNavController().navigate(
-                AuthenticationFragmentDirections.actionAuthenticationToMenuFragment()
-            )
+            val activity = requireActivity()
+            val intent = Intent(activity,MainActivity::class.java)
+            activity.startActivity(intent)
+            activity.finish()
         }
         ViewCompat.animate(views[0])
             .scaleY(scaleY)

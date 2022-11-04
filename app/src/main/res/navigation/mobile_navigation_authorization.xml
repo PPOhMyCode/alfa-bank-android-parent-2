@@ -33,17 +33,9 @@
             app:argType="string"
             app:nullable="true" />
         <action
-            android:id="@+id/action_authentication_to_menuFragment"
-            app:destination="@id/menuFragment" />
-        <action
             android:id="@+id/action_authentication_to_authorization"
             app:destination="@id/authorization" />
     </fragment>
-    <fragment
-        android:id="@+id/menuFragment"
-        android:name="com.example.alfa_bank_android_app_parent_2.ui.menu.MenuFragment"
-        android:label="fragment_menu"
-        tools:layout="@layout/fragment_menu" />
     <fragment
         android:id="@+id/authorization"
         android:name="com.example.alfa_bank_android_app_parent_2.ui.authorization.AuthorizationFragment"

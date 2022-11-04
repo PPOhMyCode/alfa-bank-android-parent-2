@@ -1,4 +1,4 @@
-package com.example.alfa_bank_android_app_parent_2.ui.menu
+package com.example.alfa_bank_android_app_parent_2.ui.children
 
 import androidx.lifecycle.ViewModelProvider
 import android.os.Bundle
@@ -8,24 +8,24 @@ import android.view.View
 import android.view.ViewGroup
 import com.example.alfa_bank_android_app_parent_2.R
 
-class MenuFragment : Fragment() {
+class ChildrenFragment : Fragment() {
 
     companion object {
-        fun newInstance() = MenuFragment()
+        fun newInstance() = ChildrenFragment()
     }
 
-    private lateinit var viewModel: MenuViewModel
+    private lateinit var viewModel: ChildrenViewModel
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        return inflater.inflate(R.layout.fragment_menu2, container, false)
+        return inflater.inflate(R.layout.fragment_children, container, false)
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        viewModel = ViewModelProvider(this).get(MenuViewModel::class.java)
+        viewModel = ViewModelProvider(this).get(ChildrenViewModel::class.java)
         // TODO: Use the ViewModel
     }
 

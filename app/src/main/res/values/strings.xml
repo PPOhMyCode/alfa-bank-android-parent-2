@@ -19,4 +19,7 @@
     <string name="input_second_time_pin">Введите pin-code повторно</string>
     <string name="logIn">Авторизоваться</string>
     <string name="one">1</string>
+    <string name="children">Мои дети</string>
+    <string name="notification">Уведомления</string>
+    <string name="settings">Настройки</string>
 </resources>

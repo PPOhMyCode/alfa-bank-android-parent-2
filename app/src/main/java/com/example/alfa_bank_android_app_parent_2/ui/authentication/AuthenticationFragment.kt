@@ -21,8 +21,7 @@ import com.example.alfa_bank_android_app_parent_2.ui.adapters.AuthenticationCard
 import com.example.alfa_bank_android_app_parent_2.R
 import com.example.alfa_bank_android_app_parent_2.databinding.FragmentAuthenticationBinding
 import com.example.alfa_bank_android_app_parent_2.domain.entiies.AuthenticationMode
-import com.example.alfa_bank_android_app_parent_2.ui.AuthorizationActivity
-import com.example.alfa_bank_android_app_parent_2.ui.MainActivity
+import com.example.alfa_bank_android_app_parent_2.ui.ParentActivity
 import java.util.concurrent.Executor
 
 
@@ -130,7 +129,7 @@ class AuthenticationFragment : Fragment() {
                 viewModel.preferences.isUserLogged = true
                 viewModel.pinClass.removePin()
                 val activity = requireActivity()
-                val intent = Intent(activity,MainActivity::class.java)
+                val intent = Intent(activity,ParentActivity::class.java)
                 activity.startActivity(intent)
                 activity.finish()
             } else {
@@ -186,7 +185,7 @@ class AuthenticationFragment : Fragment() {
             return
         if (deep - 1 == count) {
             val activity = requireActivity()
-            val intent = Intent(activity,MainActivity::class.java)
+            val intent = Intent(activity,ParentActivity::class.java)
             activity.startActivity(intent)
             activity.finish()
         }

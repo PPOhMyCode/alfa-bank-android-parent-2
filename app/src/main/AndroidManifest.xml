@@ -24,7 +24,10 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".ui.MainActivity"/>
+        <activity android:name=".ui.ParentActivity"
+            android:theme="@style/Theme.Alfabankandroidappparent2.NoActionBar"/>
+        <activity android:name=".ui.ChildActivity"
+            android:theme="@style/Theme.Alfabankandroidappparent2.NoActionBar"/>
     </application>
 
 </manifest>

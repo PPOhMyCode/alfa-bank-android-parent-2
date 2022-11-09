@@ -7,6 +7,7 @@
     tools:context=".ui.ParentActivity">
 
     <com.google.android.material.appbar.AppBarLayout
+        android:id="@+id/appBarParent"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:elevation="0dp"
@@ -19,8 +20,11 @@
             android:background="@color/FBFFF9"
           >
             <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:id="@+id/buttonNav"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:scaleY="0.5"
+                android:scaleX="0.5"
                 android:src="@drawable/ic_list"/>
             <TextView
                 android:layout_width="wrap_content"

@@ -2,7 +2,7 @@
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/mobile_navigation_main"
+    android:id="@+id/mobile_navigation_parent"
     app:startDestination="@id/childrenFragment">
 
     <fragment
@@ -10,4 +10,14 @@
         android:name="com.example.alfa_bank_android_app_parent_2.ui.children.ChildrenFragment"
         android:label="fragment_children"
         tools:layout="@layout/fragment_children" />
+    <fragment
+        android:id="@+id/settingsFragment"
+        android:name="com.example.alfa_bank_android_app_parent_2.ui.settings.SettingsFragment"
+        android:label="fragment_settings"
+        tools:layout="@layout/fragment_settings" />
+    <fragment
+        android:id="@+id/notificationFragment"
+        android:name="com.example.alfa_bank_android_app_parent_2.ui.notification.NotificationFragment"
+        android:label="fragment_notification"
+        tools:layout="@layout/fragment_notification" />
 </navigation>

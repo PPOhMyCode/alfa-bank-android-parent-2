@@ -21,15 +21,18 @@
     <string name="one">1</string>
     <string name="children">Мои дети</string>
     <string name="notification">Уведомления</string>
+    <string name="createNewNotification">Создать новое уведомления</string>
+    <string name="timeNotification">Время для уведомлений</string>
     <string name="settings">Настройки</string>
     <string name="switchOnNotification">Включить уведомления</string>
     <string name="chooseNotificationTime">Выбрать время уведомлений</string>
     <string name="chooseNotificationDay">Выбрать день</string>
-    <string name="monday">Понедельник</string>
-    <string name="tuesday">Вторник</string>
-    <string name="wednesday">Среда</string>
-    <string name="thursday">Четверг</string>
-    <string name="friday">Пятница</string>
-    <string name="saturday">Суббота</string>
-    <string name="sunday">Воскресенье</string>
+    <string name="monday">Каждый понедельник</string>
+    <string name="tuesday">Каждый вторник</string>
+    <string name="wednesday">Каждую среду</string>
+    <string name="thursday">Каждый четверг</string>
+    <string name="friday">Каждую пятницу</string>
+    <string name="saturday">Каждую субботу</string>
+    <string name="sunday">Каждое воскресенье</string>
+    <string name="chooseDayNotification">Выбрать день уведомлений</string>
 </resources>

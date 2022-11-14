@@ -1,33 +1,20 @@
 package com.example.alfa_bank_android_app_parent_2.ui.notification
 
-import android.app.AlarmManager
-import android.app.PendingIntent
-import android.content.Context.ALARM_SERVICE
-import android.icu.util.Calendar
-import android.icu.util.LocaleData
-import androidx.lifecycle.ViewModelProvider
+import android.os.Build
 import android.os.Bundle
-import android.util.Log
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
-import androidx.appcompat.app.AppCompatActivity
-import androidx.core.content.ContextCompat.getSystemService
-import androidx.core.content.getSystemService
-import com.example.alfa_bank_android_app_parent_2.R
+import androidx.fragment.app.Fragment
+import androidx.lifecycle.ViewModelProvider
 import com.example.alfa_bank_android_app_parent_2.databinding.FragmentNotificationBinding
-import com.example.alfa_bank_android_app_parent_2.ui.authentication.AuthenticationViewModel
-import com.example.alfa_bank_android_app_parent_2.ui.service.AlarmReceiver
+import com.google.android.material.bottomsheet.BottomSheetBehavior
+import com.google.android.material.bottomsheet.BottomSheetBehavior.BottomSheetCallback
+import com.google.android.material.shape.CornerFamily
 import com.google.android.material.timepicker.MaterialTimePicker
 import com.google.android.material.timepicker.TimeFormat
-import java.sql.Time
-import java.time.LocalDateTime
 import java.util.*
-import kotlin.time.Duration.Companion.hours
-import kotlin.time.Duration.Companion.minutes
-import kotlin.time.ExperimentalTime
+
 
 class NotificationFragment : Fragment() {
     //private lateinit var viewModel: NotificationViewModel
@@ -47,116 +34,84 @@ class NotificationFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        initializeClickListener()
-        binding.chooseTimeButton.text =
-            "Время уведомления " + viewModel.preferences.timePicked.time.toString()
-        initializeCheckBox()
+        initializeButton()
+        initializeBottomSheet()
     }
 
-    private fun initializeClickListener() {
-        val picker = getPicker()
-        binding.chooseTimeButton.setOnClickListener {
-            picker.show(childFragmentManager, "ChooseAlarmTime")
+    private fun initializeButton() {
+        initializeSetTimeButton()
+        initializeNotificationButton()
+        initializeCloseButton()
+        initializeAcceptButton()
+    }
+
+    private fun initializeBottomSheet() {
+        binding.notificationTimeTextView.setIs24HourView(true)
+
+        //binding.bottomSheet.shapeAppearanceModel.
+         //   .setAllCorners(CornerFamily.ROUNDED, 0F).build()
+        //if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+        //    binding.bottomSheet.shapeAppearanceModel.toBuilder()
+        //        .setAllCorners(CornerFamily.ROUNDED, 0F)
+        //}
+        with(BottomSheetBehavior.from(binding.bottomSheet)) {
+            addBottomSheetCallback(object : BottomSheetCallback() {
+                override fun onStateChanged(bottomSheet: View, newState: Int) {
+                    if (BottomSheetBehavior.STATE_HIDDEN == newState) {
+                        //binding.addNotificationButton.visibility=View.GONE
+
+                        //binding.addNotificationButton.animate().scaleX(0F).scaleY(0F)
+                        //    .setDuration(300).start()
+                    } else if (BottomSheetBehavior.STATE_EXPANDED == newState) {
+                        binding.bottomSheet.shapeAppearanceModel.toBuilder()
+                            .setAllCorners(CornerFamily.ROUNDED, 0F)
+                        //binding.addNotificationButton.visibility=View.GONE
+                        //binding.addNotificationButton.animate().scaleX(1F).scaleY(1F)
+                        //    .setDuration(300).start()
+                    }
+                }
+
+                override fun onSlide(bottomSheet: View, slideOffset: Float) {}
+            })
         }
     }
 
-    private fun initializeCheckBox() {
-        with(viewModel.preferences.timePicked) {
-            binding.checkboxMonday.isChecked = monday
-            binding.checkboxTuesday.isChecked = tuesday
-            binding.checkboxWednesday.isChecked = wednesday
-            binding.checkboxThursday.isChecked = thursday
-            binding.checkboxFriday.isChecked = friday
-            binding.checkboxSaturday.isChecked = saturday
-            binding.checkboxSunday.isChecked = sunday
-        }
-        initializeCheckBoxChangeState()
-    }
-
-    private fun initializeCheckBoxChangeState() {
-        with(viewModel.preferences) {
-            binding.checkboxMonday.setOnClickListener {
-                val time = timePicked
-                time.monday = binding.checkboxMonday.isChecked
-                timePicked = time
-                startAlarmService()
-            }
-            binding.checkboxTuesday.setOnClickListener {
-                val time = timePicked
-                time.tuesday = binding.checkboxTuesday.isChecked
-                timePicked = time
-                startAlarmService()
-            }
-            binding.checkboxWednesday.setOnClickListener {
-                val time = timePicked
-                time.wednesday = binding.checkboxWednesday.isChecked
-                timePicked = time
-                startAlarmService()
-            }
-            binding.checkboxThursday.setOnClickListener {
-                val time = timePicked
-                time.thursday = binding.checkboxThursday.isChecked
-                timePicked = time
-                startAlarmService()
-            }
-            binding.checkboxFriday.setOnClickListener {
-                val time = timePicked
-                time.friday = binding.checkboxFriday.isChecked
-                timePicked = time
-                startAlarmService()
-            }
-            binding.checkboxSaturday.setOnClickListener {
-                val time = timePicked
-                time.saturday = binding.checkboxSaturday.isChecked
-                timePicked = time
-                startAlarmService()
-            }
-            binding.checkboxSunday.setOnClickListener {
-                val time = timePicked
-                time.sunday = binding.checkboxSunday.isChecked
-                timePicked = time
-                startAlarmService()
-            }
+    private fun initializeCloseButton() {
+        binding.closeBottomSheetButton.setOnClickListener {
+            hiddenBottomSheet()
         }
     }
 
-    private fun startAlarmService() {
-        Log.d("alarm","startNotification")
-        with(requireActivity()) {
-            val alarmManager = getSystemService(ALARM_SERVICE) as AlarmManager
-            val calendar = java.util.Calendar.getInstance()
-            calendar.add(java.util.Calendar.SECOND, 1)
-            val intent = AlarmReceiver.newIntent(this)
-            val pendingIntent = PendingIntent.getBroadcast(
-                this,
-                100,
-                intent,
-                PendingIntent.FLAG_IMMUTABLE or PendingIntent.FLAG_UPDATE_CURRENT
-            )
-            alarmManager.setRepeating(AlarmManager.RTC_WAKEUP,System.currentTimeMillis(),10,pendingIntent)
-            //alarmManager.setExact(AlarmManager.RTC_WAKEUP, calendar.timeInMillis, pendingIntent)
-
+    private fun initializeAcceptButton() {
+        binding.acceptBottomSheetButton.setOnClickListener {
+            hiddenBottomSheet()
         }
     }
 
-    private fun getPicker(): MaterialTimePicker {
-        val picker =
-            MaterialTimePicker.Builder()
-                .setTimeFormat(TimeFormat.CLOCK_24H)
-                .setHour(viewModel.preferences.timePicked.time.hours)
-                .setMinute(viewModel.preferences.timePicked.time.minutes)
-                .build()
-        with(picker) {
-            addOnPositiveButtonClickListener {
-                val time = viewModel.preferences.timePicked
-                time.time = Time(hour, minute, 0)
-                viewModel.preferences.timePicked = time
-                binding.chooseTimeButton.text =
-                    "Время уведомления " + viewModel.preferences.timePicked.time.toString()
-            }
-        }
-        return picker
+    private fun hiddenBottomSheet() {
+        BottomSheetBehavior.from(binding.bottomSheet).setState(BottomSheetBehavior.STATE_HIDDEN)
     }
+
+    private fun initializeNotificationButton() {
+        binding.addNotificationButton.setOnClickListener {
+            BottomSheetBehavior.from(binding.bottomSheet)
+                .setState(BottomSheetBehavior.STATE_EXPANDED)
+        }
+    }
+
+    private fun initializeSetTimeButton() {
+        //binding.setTimeButton.setOnClickListener {
+        //    val picker =
+        //        MaterialTimePicker.Builder()
+        //            .setTimeFormat(TimeFormat.CLOCK_24H)
+        //            .setHour(12)
+        //            .setMinute(10)
+        //            .setTitleText("Select Appointment time")
+        //            .build()
+        //    picker.show(childFragmentManager, "tag")
+        //}
+    }
+
 
     companion object {
         fun newInstance() = NotificationFragment()

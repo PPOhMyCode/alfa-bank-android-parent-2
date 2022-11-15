@@ -2,39 +2,19 @@ package com.example.alfa_bank_android_app_parent_2.data
 
 import android.content.Context
 import android.content.SharedPreferences
-import androidx.fragment.app.Fragment
-import com.example.alfa_bank_android_app_parent_2.domain.Preferences
+import com.example.alfa_bank_android_app_parent_2.domain.PreferencesUser
 import com.example.alfa_bank_android_app_parent_2.domain.entiies.Child
-import com.example.alfa_bank_android_app_parent_2.domain.entiies.TimePicked
-import java.sql.Time
 
 
-class PreferencesImpl(context: Context) : Preferences() {
+
+class PreferencesUserImpl(context: Context) : PreferencesUser() {
     private val preferencesAuthorization: SharedPreferences =
         context.getSharedPreferences(SHARED_PREFERENCES_AUTHORIZATION, Context.MODE_PRIVATE)
 
     private val preferencesChild: SharedPreferences =
         context.getSharedPreferences(SHARED_PREFERENCES_CHILD, Context.MODE_PRIVATE)
 
-    private var preferencesTimePicked: SharedPreferences =
-        context.getSharedPreferences(SHARED_PREFERENCES_TIME_PICKED, Context.MODE_PRIVATE)
-
     private var isChildWasAdded: Boolean = false
-
-    override var timePicked: TimePicked
-        get() = getTimePicked()
-        set(value) {
-            with(preferencesTimePicked.edit()) {
-                putBoolean(MONDAY, value.monday).apply()
-                putBoolean(TUESDAY, value.tuesday).apply()
-                putBoolean(WEDNESDAY, value.wednesday).apply()
-                putBoolean(THURSDAY, value.thursday).apply()
-                putBoolean(FRIDAY, value.friday).apply()
-                putBoolean(SATURDAY, value.saturday).apply()
-                putBoolean(SUNDAY, value.sunday).apply()
-                putString(TIME, value.time.toString()).apply()
-            }
-        }
 
     override var userChild: Child?
         get() = getChild()
@@ -73,22 +53,7 @@ class PreferencesImpl(context: Context) : Preferences() {
         return null
     }
 
-    @JvmName("getTimePicked1")
-    private fun getTimePicked(): TimePicked {
-        with(preferencesTimePicked) {
-            var time= getString(TIME,"13:10:00")
-            return TimePicked(
-                getBoolean(MONDAY,false),
-                getBoolean(TUESDAY,false),
-                getBoolean(WEDNESDAY,false),
-                getBoolean(THURSDAY,false),
-                getBoolean(FRIDAY,false),
-                getBoolean(SATURDAY,false),
-                getBoolean(SUNDAY,false),
-                Time.valueOf(getString(TIME,"12:00:00"))
-            )
-        }
-    }
+
 
     companion object {
         const val IS_USER_LOGGED = "IS_USER_LOGGED"

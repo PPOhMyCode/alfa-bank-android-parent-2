@@ -2,12 +2,11 @@ package com.example.alfa_bank_android_app_parent_2.ui.children
 
 import android.app.Application
 import androidx.lifecycle.AndroidViewModel
-import androidx.lifecycle.ViewModel
-import com.example.alfa_bank_android_app_parent_2.data.PreferencesImpl
+import com.example.alfa_bank_android_app_parent_2.data.PreferencesUserImpl
 import com.example.alfa_bank_android_app_parent_2.domain.entiies.Child
 
 class ChildrenViewModel(application: Application) : AndroidViewModel(application) {
-    val preferences = PreferencesImpl(application.applicationContext)
+    val preferences = PreferencesUserImpl(application.applicationContext)
 
     fun loadChildren(): List<Child> {
         return listOf(

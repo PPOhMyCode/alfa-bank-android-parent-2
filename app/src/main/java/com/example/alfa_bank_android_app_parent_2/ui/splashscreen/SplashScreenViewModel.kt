@@ -2,8 +2,8 @@ package com.example.alfa_bank_android_app_parent_2.ui.splashscreen
 
 import android.app.Application
 import androidx.lifecycle.AndroidViewModel
-import com.example.alfa_bank_android_app_parent_2.data.PreferencesImpl
+import com.example.alfa_bank_android_app_parent_2.data.PreferencesUserImpl
 
 class SplashScreenViewModel(application: Application) : AndroidViewModel(application) {
-    val preferences = PreferencesImpl(application.applicationContext)
+    val preferences = PreferencesUserImpl(application.applicationContext)
 }

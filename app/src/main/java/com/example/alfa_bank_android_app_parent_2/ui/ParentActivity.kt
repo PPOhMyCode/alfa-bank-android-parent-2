@@ -30,14 +30,14 @@ class ParentActivity : AppCompatActivity() {
         setContentView(binding.root)
         initializeNavigation()
         initializeButtonNav()
-        startAlarmService()
+
     }
 
     override fun onBackPressed() {
         with(binding.drawerLayout)
         {
             if (isOpen) {
-                closeDrawerLayout()
+                closeDrawerLayout(null)
             } else {
                 finish()
             }
@@ -74,9 +74,10 @@ class ParentActivity : AppCompatActivity() {
 
     }
 
-    private fun closeDrawerLayout() {
+    private fun closeDrawerLayout(fragment: Fragment?) {
         GlobalScope.launch(context = Dispatchers.Main) {
-            delay(20)
+            if(fragment!=NotificationFragment())
+                delay(20)
             binding.drawerLayout.closeDrawer(GravityCompat.START)
         }
     }
@@ -85,11 +86,11 @@ class ParentActivity : AppCompatActivity() {
         supportFragmentManager.beginTransaction()
             .replace(R.id.nav_host_fragment_content_main, fragment)
             .commit()
-        closeDrawerLayout()
+        closeDrawerLayout(fragment)
     }
 
     private fun startAlarmService() {
-        Log.d("alarm","parentStart")
+        Log.d("alarm", "parentStart")
         val alarmManager = getSystemService(ALARM_SERVICE) as AlarmManager
         val calendar = java.util.Calendar.getInstance()
         calendar.add(java.util.Calendar.MONDAY, 8)

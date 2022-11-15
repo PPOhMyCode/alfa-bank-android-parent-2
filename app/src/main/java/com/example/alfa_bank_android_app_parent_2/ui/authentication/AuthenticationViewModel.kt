@@ -6,14 +6,11 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.navigation.fragment.NavHostFragment.Companion.findNavController
-import androidx.navigation.fragment.findNavController
 import com.example.alfa_bank_android_app_parent_2.domain.entiies.AuthenticationItemsForAdapter
 import com.example.alfa_bank_android_app_parent_2.domain.entiies.PinClass
 import com.example.alfa_bank_android_app_parent_2.R
-import com.example.alfa_bank_android_app_parent_2.data.PreferencesImpl
+import com.example.alfa_bank_android_app_parent_2.data.PreferencesUserImpl
 import com.example.alfa_bank_android_app_parent_2.domain.entiies.AuthenticationMode
-import com.example.alfa_bank_android_app_parent_2.ui.splashscreen.SplashScreenFragment
-import com.example.alfa_bank_android_app_parent_2.ui.splashscreen.SplashScreenFragmentDirections
 
 
 class AuthenticationViewModel(
@@ -23,7 +20,7 @@ class AuthenticationViewModel(
     var authenticationMode: AuthenticationMode
 ) : ViewModel() {
     var length = MutableLiveData<Int>()
-    val preferences = PreferencesImpl(application.applicationContext)
+    val preferences = PreferencesUserImpl(application.applicationContext)
     var funAfterPinWasEntered: ((s: String?) -> Unit)? = null
 
     fun loadItemsForAdapter(

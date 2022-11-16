@@ -35,4 +35,5 @@
     <string name="saturday">Каждую субботу</string>
     <string name="sunday">Каждое воскресенье</string>
     <string name="chooseDayNotification">Выбрать день уведомлений</string>
+    <string name="Exit">Выход</string>
 </resources>

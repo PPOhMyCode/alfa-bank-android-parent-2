@@ -13,6 +13,7 @@ import com.example.alfa_bank_android_app_parent_2.databinding.FragmentAuthentica
 import com.example.alfa_bank_android_app_parent_2.databinding.FragmentChildrenBinding
 import com.example.alfa_bank_android_app_parent_2.ui.ChildActivity
 import com.example.alfa_bank_android_app_parent_2.ui.adapters.ChildListAdapter
+import com.google.android.material.divider.MaterialDividerItemDecoration
 
 class ChildrenFragment : Fragment() {
 
@@ -27,33 +28,39 @@ class ChildrenFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        _binding=FragmentChildrenBinding.inflate(inflater, container, false)
-        viewModel= ChildrenViewModel( requireActivity().application)
+        _binding = FragmentChildrenBinding.inflate(inflater, container, false)
+        viewModel = ChildrenViewModel(requireActivity().application)
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         //binding.childrenRecyclerView.adapter
-        val childListAdapter=ChildListAdapter(viewModel.loadChildren())
-        childListAdapter.onItemClick={
-            viewModel.preferences.userChild=it
-            val intent = Intent(requireActivity(),ChildActivity::class.java)
+        val childListAdapter = ChildListAdapter(viewModel.loadChildren())
+        childListAdapter.onItemClick = {
+            viewModel.preferences.userChild = it
+            val intent = Intent(requireActivity(), ChildActivity::class.java)
             requireActivity().startActivity(intent)
             requireActivity().finish()
         }
-        with(binding.childrenRecyclerView){
-            adapter=childListAdapter
-            layoutManager=LinearLayoutManager(requireActivity(),LinearLayoutManager.VERTICAL,false)
+        val divider = MaterialDividerItemDecoration(
+            requireActivity(),
+            LinearLayoutManager.VERTICAL /*or LinearLayoutManager.HORIZONTAL*/
+        )
+        divider.isLastItemDecorated=false
+        with(binding.childrenRecyclerView) {
+            adapter = childListAdapter
+            layoutManager =
+                LinearLayoutManager(requireActivity(), LinearLayoutManager.VERTICAL, false)
             false
-
+            addItemDecoration(divider)
         }
     }
 
     //override fun onActivityCreated(savedInstanceState: Bundle?) {
     //    super.onActivityCreated(savedInstanceState)
     //    viewModel = ViewModelProvider(this).get(ChildrenViewModel::class.java)
-        // TODO: Use the ViewModel
+    // TODO: Use the ViewModel
     //}
 
 }

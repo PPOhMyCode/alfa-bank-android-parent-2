@@ -21,8 +21,7 @@ import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import android.content.DialogInterface
-
-
+import android.content.Intent
 
 
 class ParentActivity : AppCompatActivity() {
@@ -84,9 +83,13 @@ class ParentActivity : AppCompatActivity() {
                     binding.appBarMain.toolbarTitle.text = "Настройки"
                     true
                 }
-                else -> {
+                R.id.exit -> {
+                    val intent = Intent(this,AuthorizationActivity::class.java)
+                    startActivity(intent)
+                    finish()
                     true
                 }
+                else -> {true}
             }
         }
 

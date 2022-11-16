@@ -23,8 +23,8 @@ class AlarmReceiver : BroadcastReceiver() {
             createNotificationChannel(notificationManager)
 
             val notification = NotificationCompat.Builder(it, CHANNEL_ID)
-                .setContentTitle("Title")
-                .setContentText("Text")
+                .setContentTitle("School Food")
+                .setContentText("Пришло время выбрать меню на следующую неделю")
                 .setSmallIcon(R.drawable.ic_launcher_background)
                 .build()
 

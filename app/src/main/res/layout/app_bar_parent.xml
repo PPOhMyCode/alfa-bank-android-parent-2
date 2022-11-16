@@ -25,13 +25,17 @@
                 android:layout_height="48dp"
                 android:scaleY="0.5"
                 android:scaleX="0.5"
+                android:outlineAmbientShadowColor="@color/black"
                 android:src="@drawable/ic_list"/>
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/children"
                 android:layout_gravity="center"
-                android:id="@+id/toolbar_title" />
+                android:id="@+id/toolbar_title"
+                android:textSize="18sp"
+                android:textColor="@color/black"
+                android:textStyle="bold"/>
         </com.google.android.material.appbar.MaterialToolbar>
 
     </com.google.android.material.appbar.AppBarLayout>

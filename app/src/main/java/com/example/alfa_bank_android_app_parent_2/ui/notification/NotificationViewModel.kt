@@ -21,4 +21,16 @@ class NotificationViewModel(application: Application) : AndroidViewModel(applica
     fun getLastRequestCode():Int{
         return preferencesNotification.lastRequestCode
     }
+
+    fun deleteNotification(notification: Notification){
+        notification.idNotification?.let {
+            preferencesNotification.deleteNotification(it)
+        }
+    }
+
+    fun changeStateOnPause(id:Int,isOnPause:Boolean){
+        preferencesNotification.changeStateOnPause(id,isOnPause)
+    }
+
+
 }

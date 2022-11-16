@@ -11,7 +11,9 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.example.alfa_bank_android_app_parent_2.databinding.FragmentNotificationBinding
 import com.example.alfa_bank_android_app_parent_2.domain.entiies.Notification
 import com.example.alfa_bank_android_app_parent_2.ui.adapters.NotificationListAdapter
@@ -19,8 +21,6 @@ import com.example.alfa_bank_android_app_parent_2.ui.service.AlarmReceiver
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import java.sql.Time
 import java.time.DayOfWeek
-import java.time.LocalDateTime
-import java.util.*
 
 
 class NotificationFragment : Fragment() {
@@ -54,12 +54,84 @@ class NotificationFragment : Fragment() {
 
     private fun initializeRecyclerView() {
         notificationListAdapter = NotificationListAdapter(viewModel.loadNotifications())
+        notificationListAdapter.onPositiveItemClick = {
+            onPositiveRecyclerViewItemClick(it)
+        }
+        notificationListAdapter.onNegativeItemClick = {
+            onNegativeRecyclerViewItemClick(it)
+        }
+        notificationListAdapter.onSwitchClick =
+            { notification, b -> notification.idNotification?.let { viewModel.changeStateOnPause(it, b) } }
+
         with(binding.notificationRecyclerView) {
             adapter = notificationListAdapter
             false
             layoutManager =
                 LinearLayoutManager(requireActivity(), LinearLayoutManager.VERTICAL, false)
+            setupSwipeListener(this)
+        }
+    }
 
+    private fun onSwitchClick(notification: Notification, isOnPause: Boolean) {
+
+    }
+
+    private fun setupSwipeListener(recyclerView: RecyclerView) {
+        val callback = object : ItemTouchHelper.SimpleCallback(
+            0,
+            ItemTouchHelper.LEFT or ItemTouchHelper.RIGHT
+        ) {
+
+            override fun onMove(
+                recyclerView: RecyclerView,
+                viewHolder: RecyclerView.ViewHolder,
+                target: RecyclerView.ViewHolder
+            ): Boolean {
+                return false
+            }
+
+            override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
+                val item = notificationListAdapter.notifications[viewHolder.adapterPosition]
+                onNegativeRecyclerViewItemClick(item)
+                viewModel.deleteNotification(item)
+                notificationListAdapter.notifications = viewModel.loadNotifications()
+                notificationListAdapter.notifyItemRemoved(viewHolder.adapterPosition)
+            }
+        }
+        val itemTouchHelper = ItemTouchHelper(callback)
+        itemTouchHelper.attachToRecyclerView(recyclerView)
+    }
+
+    private fun onNegativeRecyclerViewItemClick(notification: Notification) {
+        finishAlarmService(notification.daysOfWeek, notification.requestCode)
+    }
+
+
+    private fun onPositiveRecyclerViewItemClick(notification: Notification) {
+        startAlarmService(
+            notification.time.minutes,
+            notification.time.hours,
+            notification.daysOfWeek,
+            notification.requestCode
+        )
+    }
+
+    private fun finishAlarmService(
+        daysOfWeek: List<DayOfWeek>,
+        requestCode: Int
+    ) {
+        with(requireActivity()) {
+            val alarmManager = getSystemService(ALARM_SERVICE) as AlarmManager
+            val intent = AlarmReceiver.newIntent(this)
+            for (day in daysOfWeek) {
+                val pendingIntent = PendingIntent.getBroadcast(
+                    this,
+                    getCodedRequestCode(day, requestCode),
+                    intent,
+                    PendingIntent.FLAG_IMMUTABLE or PendingIntent.FLAG_UPDATE_CURRENT
+                )
+                alarmManager.cancel(pendingIntent)
+            }
         }
     }
 
@@ -120,7 +192,7 @@ class NotificationFragment : Fragment() {
                 0
             )
             val requestCode = viewModel.getLastRequestCode() + 1
-            viewModel.addNotification(Notification(daysOfWeek, time, requestCode,true))
+            viewModel.addNotification(Notification(null, daysOfWeek, time, requestCode, true))
             startAlarmService(minute, hour, daysOfWeek, requestCode)
         }
         notificationListAdapter.notifications = viewModel.loadNotifications()
@@ -168,7 +240,7 @@ class NotificationFragment : Fragment() {
                 val time = getTimeToData(day, hour, minute)
                 alarmManager.setRepeating(
                     AlarmManager.RTC_WAKEUP,
-                    System.currentTimeMillis()+time,
+                    System.currentTimeMillis() + time,
                     AlarmManager.INTERVAL_DAY * 7,
                     pendingIntent
                 )
@@ -177,15 +249,7 @@ class NotificationFragment : Fragment() {
     }
 
     private fun getTimeToData(dayOfWeek: DayOfWeek, hour: Int, minute: Int): Long {
-        val day = when (dayOfWeek) {
-            DayOfWeek.MONDAY -> Calendar.MONDAY
-            DayOfWeek.TUESDAY -> Calendar.TUESDAY
-            DayOfWeek.WEDNESDAY -> Calendar.WEDNESDAY
-            DayOfWeek.THURSDAY -> Calendar.THURSDAY
-            DayOfWeek.FRIDAY -> Calendar.FRIDAY
-            DayOfWeek.SATURDAY -> Calendar.SATURDAY
-            DayOfWeek.SUNDAY -> Calendar.SUNDAY
-        }
+        val day = getDayFromDayOfWeekToCalendarDay(dayOfWeek)
         val calendar = Calendar.getInstance()
         calendar.set(Calendar.DAY_OF_WEEK, day)
         calendar.set(Calendar.HOUR_OF_DAY, hour)
@@ -200,8 +264,20 @@ class NotificationFragment : Fragment() {
         }
     }
 
+    private fun getDayFromDayOfWeekToCalendarDay(dayOfWeek: DayOfWeek): Int {
+        return when (dayOfWeek) {
+            DayOfWeek.MONDAY -> Calendar.MONDAY
+            DayOfWeek.TUESDAY -> Calendar.TUESDAY
+            DayOfWeek.WEDNESDAY -> Calendar.WEDNESDAY
+            DayOfWeek.THURSDAY -> Calendar.THURSDAY
+            DayOfWeek.FRIDAY -> Calendar.FRIDAY
+            DayOfWeek.SATURDAY -> Calendar.SATURDAY
+            DayOfWeek.SUNDAY -> Calendar.SUNDAY
+        }
+    }
+
     private fun getCodedRequestCode(dayOfWeek: DayOfWeek, requestCode: Int) =
-        ((dayOfWeek.value+1).toString() + "0" + requestCode.toString()).toInt()
+        ((dayOfWeek.value + 1).toString() + "0" + requestCode.toString()).toInt()
 
     private fun hiddenBottomSheet() {
         BottomSheetBehavior.from(binding.bottomSheet).setState(BottomSheetBehavior.STATE_HIDDEN)
@@ -216,5 +292,6 @@ class NotificationFragment : Fragment() {
 
     companion object {
         fun newInstance() = NotificationFragment()
+
     }
 }

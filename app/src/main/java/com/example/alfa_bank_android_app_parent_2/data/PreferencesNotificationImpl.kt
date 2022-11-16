@@ -6,7 +6,6 @@ import com.example.alfa_bank_android_app_parent_2.domain.PreferencesNotification
 import com.example.alfa_bank_android_app_parent_2.domain.entiies.Notification
 import java.sql.Time
 import java.time.DayOfWeek
-import kotlin.time.Duration.Companion.hours
 
 class PreferencesNotificationImpl(context: Context) : PreferencesNotification() {
 
@@ -21,7 +20,8 @@ class PreferencesNotificationImpl(context: Context) : PreferencesNotification() 
         val lastId = lastIdPreferences
         val result = mutableListOf<Notification>()
         for (id in 1..lastId) {
-            result.add(getNotification(id))
+            if (!preferencesNotification.getBoolean(IS_DELETED + id, false))
+                result.add(getNotification(id))
         }
         return result
     }
@@ -39,9 +39,16 @@ class PreferencesNotificationImpl(context: Context) : PreferencesNotification() 
             addDaysOfWeek(idNotification, daysOfWeek)
             addTime(idNotification, time)
             addRequestCode(idNotification, requestCode)
-            addOnPause(idNotification, isOnPause)
+            addOnPause(idNotification, isNotOnPause)
         }
     }
+
+    override fun changeStateOnPause(id: Int, isNotOnPause: Boolean) {
+        preferencesNotification.edit().putBoolean(ON_PAUSE + id, isNotOnPause).apply()
+    }
+
+    override fun deleteNotification(id: Int) =
+        preferencesNotification.edit().putBoolean(IS_DELETED + id, true).apply()
 
     private fun addOnPause(id: Int, isOnPause: Boolean) {
         preferencesNotification.edit().putBoolean(ON_PAUSE + id, isOnPause).apply()
@@ -65,7 +72,13 @@ class PreferencesNotificationImpl(context: Context) : PreferencesNotification() 
     }
 
     private fun getNotification(id: Int): Notification {
-        return Notification(getDaysOfWeek(id), getTimeNotification(id), getRequestCode(id),getIsOnPause(id))
+        return Notification(
+            id,
+            getDaysOfWeek(id),
+            getTimeNotification(id),
+            getRequestCode(id),
+            getIsOnPause(id)
+        )
     }
 
     private fun getIsOnPause(id: Int) =
@@ -116,6 +129,7 @@ class PreferencesNotificationImpl(context: Context) : PreferencesNotification() 
         const val LAST_REQUEST_CODE = "LAST_REQUEST_CODE"
         const val SHARED_PREFERENCES_NOTIFICATION = "SHARED_PREFERENCES_NOTIFICATION"
         const val LAST_NOTIFICATION_ID = "LAST_NOTIFICATION_ID"
+        const val IS_DELETED = "IS_DELETED"
         const val TIME_NOTIFICATION = "TIME_NOTIFICATION"
         const val REQUEST_CODE = "REQUEST_CODE"
         const val DAY_OF_WEEK = "DAY_OF_WEEK"

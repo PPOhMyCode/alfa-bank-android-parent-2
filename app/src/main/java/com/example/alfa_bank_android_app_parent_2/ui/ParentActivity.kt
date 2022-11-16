@@ -2,6 +2,7 @@ package com.example.alfa_bank_android_app_parent_2.ui
 
 
 import android.app.AlarmManager
+import android.app.AlertDialog
 import android.app.PendingIntent
 import android.os.Bundle
 import android.util.Log
@@ -19,6 +20,10 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
+import android.content.DialogInterface
+
+
+
 
 class ParentActivity : AppCompatActivity() {
 
@@ -39,9 +44,20 @@ class ParentActivity : AppCompatActivity() {
             if (isOpen) {
                 closeDrawerLayout(null)
             } else {
-                finish()
+                confirmExit { finish() }
             }
         }
+    }
+
+    private fun confirmExit(funAfterConfirm: () -> Unit) {
+        val builder = AlertDialog.Builder(this)
+        builder.setTitle("School food")
+        builder.setMessage("Вы точно хотите выйти?")
+        builder.setCancelable(true)
+        builder.setPositiveButton("Нет"
+        ) { _, _ -> }
+        builder.setNegativeButton("Да"){_,_->funAfterConfirm.invoke()}
+        builder.show()
     }
 
     private fun initializeButtonNav() {
@@ -55,15 +71,17 @@ class ParentActivity : AppCompatActivity() {
             when (it.itemId) {
                 R.id.children -> {
                     goToFragment(ChildrenFragment())
-                    //binding.drawerLayout.closeDrawer(GravityCompat.START)
+                    binding.appBarMain.toolbarTitle.text = "Мои дети"
                     true
                 }
                 R.id.notification -> {
                     goToFragment(NotificationFragment())
+                    binding.appBarMain.toolbarTitle.text = "Уведомления"
                     true
                 }
                 R.id.settings -> {
                     goToFragment(SettingsFragment())
+                    binding.appBarMain.toolbarTitle.text = "Настройки"
                     true
                 }
                 else -> {
@@ -76,7 +94,7 @@ class ParentActivity : AppCompatActivity() {
 
     private fun closeDrawerLayout(fragment: Fragment?) {
         GlobalScope.launch(context = Dispatchers.Main) {
-            if(fragment!=NotificationFragment())
+            if (fragment != NotificationFragment())
                 delay(20)
             binding.drawerLayout.closeDrawer(GravityCompat.START)
         }
@@ -87,26 +105,5 @@ class ParentActivity : AppCompatActivity() {
             .replace(R.id.nav_host_fragment_content_main, fragment)
             .commit()
         closeDrawerLayout(fragment)
-    }
-
-    private fun startAlarmService() {
-        Log.d("alarm", "parentStart")
-        val alarmManager = getSystemService(ALARM_SERVICE) as AlarmManager
-        val calendar = java.util.Calendar.getInstance()
-        calendar.add(java.util.Calendar.MONDAY, 8)
-        calendar.add(java.util.Calendar.MONDAY, 8)
-        calendar.add(java.util.Calendar.MONDAY, 8)
-        calendar.add(java.util.Calendar.MONDAY, 8)
-
-
-        calendar.add(java.util.Calendar.AM_PM, 21)
-        val intent = AlarmReceiver.newIntent(this)
-        val pendingIntent = PendingIntent.getBroadcast(
-            this,
-            100,
-            intent,
-            PendingIntent.FLAG_IMMUTABLE or PendingIntent.FLAG_UPDATE_CURRENT
-        )
-        alarmManager.setExact(AlarmManager.RTC_WAKEUP, calendar.timeInMillis, pendingIntent)
     }
 }

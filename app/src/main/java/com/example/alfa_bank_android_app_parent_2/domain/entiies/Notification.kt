@@ -4,8 +4,9 @@ import java.sql.Time
 import java.time.DayOfWeek
 
 class Notification(
+    var idNotification: Int?,
     var daysOfWeek: List<DayOfWeek>,
     var time: Time,
     var requestCode: Int,
-    var isOnPause:Boolean
+    var isNotOnPause:Boolean
 )

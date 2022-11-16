@@ -3,12 +3,10 @@ package com.example.alfa_bank_android_app_parent_2.ui.adapters
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageButton
 import android.widget.TextView
 import androidx.appcompat.widget.SwitchCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.example.alfa_bank_android_app_parent_2.R
-import com.example.alfa_bank_android_app_parent_2.domain.entiies.Dish
 import com.example.alfa_bank_android_app_parent_2.domain.entiies.Notification
 import java.sql.Time
 import java.time.DayOfWeek
@@ -16,7 +14,9 @@ import java.time.DayOfWeek
 class NotificationListAdapter(var notifications: List<Notification>) :
     RecyclerView.Adapter<NotificationListAdapter.ItemHolder>() {
 
-    var onItemClick: ((Notification) -> Unit)? = null
+    var onPositiveItemClick: ((Notification) -> Unit)? = null
+    var onNegativeItemClick: ((Notification) -> Unit)? = null
+    var onSwitchClick: ((Notification, Boolean) -> Unit)? = null
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ItemHolder {
         val view =
@@ -28,6 +28,15 @@ class NotificationListAdapter(var notifications: List<Notification>) :
         with(notifications[position]) {
             holder.time.text = getStringTime(time)
             holder.days.text = getStringDay(daysOfWeek)
+            holder.switch.isChecked = isNotOnPause
+            holder.switch.setOnClickListener {
+                onSwitchClick?.invoke(this, holder.switch.isChecked)
+                if (holder.switch.isChecked)
+                    onPositiveItemClick?.invoke(this)
+                else
+                    onNegativeItemClick?.invoke(this)
+                isNotOnPause = holder.switch.isChecked
+            }
             //holder.switch.isChecked = true
         }
 
@@ -54,7 +63,7 @@ class NotificationListAdapter(var notifications: List<Notification>) :
         String.format("%02d", time.hours) + " : " + String.format("%02d", time.minutes)
 
     private fun getStringDay(daysOfWeek: List<DayOfWeek>): String {
-        if(daysOfWeek.size==7)
+        if (daysOfWeek.size == 7)
             return "Ежедневно"
         val result = StringBuilder()
         with(result) {

@@ -1,5 +1,6 @@
 package com.example.alfa_bank_android_app_parent_2.ui.adapters
 
+import android.annotation.SuppressLint
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -21,12 +22,14 @@ class ChildListAdapter(var children: List<Child>) :
         return children.size
     }
 
+
+    @SuppressLint("SetTextI18n")
     override fun onBindViewHolder(holder: ItemHolder, position: Int) {
         with(children[position]) {
             holder.name.text = name
             holder.schoolClass.text = schoolClass
             holder.school.text = school
-            holder.account.text = account.toString()
+            holder.account.text = ("$account р")
         }
         holder.itemView.setOnClickListener{
             onItemClick?.invoke(children[position])

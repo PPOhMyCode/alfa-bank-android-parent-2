@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context=".ui.ParentActivity">
+
+    <com.google.android.material.appbar.AppBarLayout
+        android:id="@+id/appBarParent"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:elevation="0dp"
+        android:elevation="0dp">
+
+        <com.google.android.material.appbar.MaterialToolbar
+            android:id="@+id/topAppBar"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:background="@color/fbfff9"
+          >
+            <ImageView
+                android:id="@+id/buttonNav"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:scaleY="0.5"
+                android:scaleX="0.5"
+                android:outlineAmbientShadowColor="@color/black"
+                android:src="@drawable/ic_list"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/children"
+                android:layout_gravity="center"
+                android:id="@+id/toolbar_title"
+                android:textSize="18sp"
+                android:textColor="@color/black"
+                android:textStyle="bold"/>
+        </com.google.android.material.appbar.MaterialToolbar>
+
+    </com.google.android.material.appbar.AppBarLayout>
+    <include layout="@layout/content_activity_parent" />
+
+
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

@@ -1,13 +1,90 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/fbfff9"
+    android:orientation="vertical"
+    android:padding="16dp"
     tools:context=".ui.settings.SettingsFragment">
 
-    <TextView
+    <com.google.android.material.card.MaterialCardView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="Hello" />
+        android:layout_height="wrap_content"
+        app:cardCornerRadius="16dp">
 
-</FrameLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_margin="16dp">
+
+            <TextView
+                android:layout_marginTop="8dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/defaultNotificationView"
+                android:textSize="18sp"
+                android:textColor="@color/black"
+                />
+
+            <CheckBox
+                android:id="@+id/nameCheckBox"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/DefaultName"
+                android:textColor="@color/black"
+                />
+            <CheckBox
+                android:id="@+id/dayCheckBox"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/DefaultDay"
+                android:textColor="@color/black"/>
+            <TextView
+                android:layout_marginTop="8dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/DefaultType"
+                android:textColor="@color/black"/>
+            <TextView
+                android:layout_marginTop="8dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/defaultDish"
+                android:textColor="@color/black"/>
+            <CheckBox
+                android:id="@+id/billCheckBox"
+                android:layout_marginTop="8dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/defaultBill"
+                android:textColor="@color/black"/>
+            <CheckBox
+                android:id="@+id/squirrelsCheckBox"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/defaultSquirrels"
+                android:textColor="@color/black"/>
+            <CheckBox
+                android:id="@+id/fatCheckBox"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/defaultFats"
+                android:textColor="@color/black"/>
+            <CheckBox
+                android:id="@+id/carbohydratesCheckBox"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/defaultCarbohydrates"
+                android:textColor="@color/black"/>
+            <CheckBox
+                android:id="@+id/caloriesCheckBox"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/defaultCalories"
+                android:textColor="@color/black"/>
+        </LinearLayout>
+    </com.google.android.material.card.MaterialCardView>
+</LinearLayout>

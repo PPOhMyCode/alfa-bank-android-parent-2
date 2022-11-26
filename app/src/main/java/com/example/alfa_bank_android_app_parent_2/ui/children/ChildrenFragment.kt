@@ -39,7 +39,7 @@ class ChildrenFragment : Fragment() {
         val childListAdapter = ChildListAdapter(viewModel.loadChildren())
         childListAdapter.onItemClick = {
             viewModel.preferences.userChild = it
-            val intent = Intent(requireActivity(), ChildActivity::class.java)
+            val intent = ChildActivity.newIntent(requireActivity(),it)
             requireActivity().startActivity(intent)
             requireActivity().finish()
         }
@@ -57,10 +57,6 @@ class ChildrenFragment : Fragment() {
         }
     }
 
-    //override fun onActivityCreated(savedInstanceState: Bundle?) {
-    //    super.onActivityCreated(savedInstanceState)
-    //    viewModel = ViewModelProvider(this).get(ChildrenViewModel::class.java)
-    // TODO: Use the ViewModel
-    //}
+
 
 }

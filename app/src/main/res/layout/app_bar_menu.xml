@@ -5,13 +5,11 @@
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".ui.ChildActivity">
-
     <com.google.android.material.appbar.AppBarLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:elevation="0dp"
         android:elevation="0dp">
-
         <com.google.android.material.appbar.MaterialToolbar
             android:id="@+id/topAppBar"
             android:layout_width="match_parent"
@@ -19,10 +17,12 @@
             android:background="@color/fbfff9"
             >
             <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:id="@+id/buttonNav"
                 android:layout_gravity="start"
-                android:layout_marginStart="16dp"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:scaleY="0.5"
+                android:scaleX="0.5"
                 android:src="@drawable/ic_list"/>
             <LinearLayout
                 android:layout_width="wrap_content"
@@ -33,34 +33,28 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
+                    android:textSize="18sp"
+                    android:textColor="@color/black"
+                    android:textStyle="bold"
                     android:text="Меню"/>
                 <TextView
+                    android:textSize="12sp"
+                    android:textColor="@color/black"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Питание на неделю"/>
             </LinearLayout>
 
-            <androidx.cardview.widget.CardView
-                android:id="@+id/cardView"
-                android:layout_width="30dp"
-                android:layout_height="30dp"
-                app:cardCornerRadius="15dp"
-                app:cardElevation="0dp"
-                android:layout_gravity="end"
-                android:layout_marginEnd="16dp">
-
-                <ImageView
-                    android:id="@+id/childImage"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:background="@color/A7D7AF"
+                <ImageButton
+                    android:layout_gravity="end"
+                    android:id="@+id/copyImageButton"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
                     android:scaleType="centerCrop"
-                    android:src="@drawable/ic_launcher_foreground" />
-            </androidx.cardview.widget.CardView>
+                    android:layout_marginEnd="16dp"
+                    android:background="@color/fbfff9"
+                    android:src="@drawable/ic_baseline_content_copy_24" />
         </com.google.android.material.appbar.MaterialToolbar>
-
     </com.google.android.material.appbar.AppBarLayout>
     <include layout="@layout/content_activity_child" />
-
-
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

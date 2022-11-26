@@ -9,4 +9,6 @@ class AuthorizationActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_authorization)
     }
+
+
 }

@@ -29,9 +29,9 @@
                 android:id="@+id/imageViewAnimation"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:background="@android:color/holo_green_light"
+
                 android:transitionName="profile"
-                app:srcCompat="@drawable/ic_launcher_foreground" />
+                app:srcCompat="@drawable/ic_label" />
 
 
         </LinearLayout>

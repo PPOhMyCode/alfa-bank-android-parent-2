@@ -11,13 +11,15 @@ class ChildrenViewModel(application: Application) : AndroidViewModel(application
     fun loadChildren(): List<Child> {
         return listOf(
             Child(
-                "Мария Синицина ",
+                "Мария",
+                "Синицина",
                 "6 А класс",
                 "МБОУ СОШ №57",
                 2300.52F,
             ),
             Child(
-                "Михаил Синицина ",
+                "Михаил",
+                "Синицин",
                 "10 Б класс",
                 "МБОУ СОШ №57",
                 0F,

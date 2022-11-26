@@ -4,6 +4,7 @@ package com.example.alfa_bank_android_app_parent_2.ui
 import android.app.AlarmManager
 import android.app.AlertDialog
 import android.app.PendingIntent
+import android.content.Context
 import android.os.Bundle
 import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
@@ -22,6 +23,7 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import android.content.DialogInterface
 import android.content.Intent
+import androidx.lifecycle.lifecycleScope
 
 
 class ParentActivity : AppCompatActivity() {
@@ -53,9 +55,10 @@ class ParentActivity : AppCompatActivity() {
         builder.setTitle("School food")
         builder.setMessage("Вы точно хотите выйти?")
         builder.setCancelable(true)
-        builder.setPositiveButton("Нет"
+        builder.setPositiveButton(
+            "Нет"
         ) { _, _ -> }
-        builder.setNegativeButton("Да"){_,_->funAfterConfirm.invoke()}
+        builder.setNegativeButton("Да") { _, _ -> funAfterConfirm.invoke() }
         builder.show()
     }
 
@@ -84,19 +87,21 @@ class ParentActivity : AppCompatActivity() {
                     true
                 }
                 R.id.exit -> {
-                    val intent = Intent(this,AuthorizationActivity::class.java)
+                    val intent = Intent(this, AuthorizationActivity::class.java)
                     startActivity(intent)
                     finish()
                     true
                 }
-                else -> {true}
+                else -> {
+                    true
+                }
             }
         }
 
     }
 
     private fun closeDrawerLayout(fragment: Fragment?) {
-        GlobalScope.launch(context = Dispatchers.Main) {
+        lifecycleScope.launch(context = Dispatchers.Main) {
             if (fragment != NotificationFragment())
                 delay(20)
             binding.drawerLayout.closeDrawer(GravityCompat.START)
@@ -108,5 +113,10 @@ class ParentActivity : AppCompatActivity() {
             .replace(R.id.nav_host_fragment_content_main, fragment)
             .commit()
         closeDrawerLayout(fragment)
+    }
+
+    companion object {
+        fun newIntent(packageContext: Context): Intent =
+            Intent(packageContext, ParentActivity::class.java)
     }
 }

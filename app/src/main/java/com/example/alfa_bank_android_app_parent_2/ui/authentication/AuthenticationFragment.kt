@@ -73,17 +73,11 @@ class AuthenticationFragment : Fragment() {
             )
         )
         initializeMode()
-
         initializeBiometricAuthentication()
         initializeRecyclerView()
         viewModel.pinClass.adapter = {
             changeAuthenticationDataAdapter()
         }
-
-        //if (args.authenticationMode == A) {
-        //    biometricPrompt.authenticate(promptInfo)
-        //}
-
     }
 
     private fun initializeMode() {
@@ -124,9 +118,9 @@ class AuthenticationFragment : Fragment() {
         viewModel.funAfterPinWasEntered = {
             if (args.pin == it) {
                 it?.let { pinCode ->
-                    viewModel.preferences.userPinCode = pinCode
+                    viewModel.userPreferences.userPinCode = pinCode
                 }
-                viewModel.preferences.isUserLogged = true
+                viewModel.userPreferences.isUserLogged = true
                 viewModel.pinClass.removePin()
                 val activity = requireActivity()
                 val intent = Intent(activity,ParentActivity::class.java)
@@ -233,7 +227,7 @@ class AuthenticationFragment : Fragment() {
     private fun startAuthenticationMode() {
         binding.text.visibility = View.INVISIBLE
         viewModel.funAfterPinWasEntered = {
-            if (viewModel.preferences.userPinCode.toString() == it) {
+            if (viewModel.userPreferences.userPinCode.toString() == it) {
                 animateCorrectPasswordView(
                     viewModel.pinClass.circles,
                     0.7F, 0.7F, 0.4F, 70L, 4, 0

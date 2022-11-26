@@ -19,8 +19,9 @@ class AuthenticationViewModel(
     var pinClass: PinClass,
     var authenticationMode: AuthenticationMode
 ) : ViewModel() {
+
     var length = MutableLiveData<Int>()
-    val preferences = PreferencesUserImpl(application.applicationContext)
+    val userPreferences = PreferencesUserImpl(application.applicationContext)
     var funAfterPinWasEntered: ((s: String?) -> Unit)? = null
 
     fun loadItemsForAdapter(
@@ -34,7 +35,6 @@ class AuthenticationViewModel(
             for (number in 1..9)
                 addNumber(AuthenticationItemsForAdapter.ItemNumber(number) {
                     pinClass.addNumber(number)
-
                     length.value = pinClass.getPin().length
                     if (pinClass.getPin().length == 4) {
                         funAfterPinWasEntered?.let { it(pinClass.getPin()) }
@@ -42,7 +42,7 @@ class AuthenticationViewModel(
 
                 })
             addString(AuthenticationItemsForAdapter.ItemString("выход") {
-                preferences.isUserLogged = false
+                userPreferences.isUserLogged = false
                 findNavController(fragment as AuthenticationFragment).navigate(
                     AuthenticationFragmentDirections.actionAuthenticationToAuthorization()
                 )

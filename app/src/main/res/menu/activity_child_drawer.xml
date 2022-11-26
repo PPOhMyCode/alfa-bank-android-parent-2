@@ -3,7 +3,9 @@
     xmlns:tools="http://schemas.android.com/tools"
     tools:showIn="navigation_view">
 
-    <group android:checkableBehavior="single">
+    <group
+        android:id="@+id/first"
+        android:checkableBehavior="single">
         <item
             android:id="@+id/next_week"
             android:icon="@drawable/ic_shop_add"
@@ -28,5 +30,14 @@
             android:id="@+id/settings"
             android:icon="@drawable/ic_setting_2"
             android:title="@string/settings" />
+    </group>
+    <group
+        android:id="@+id/second"
+        android:checkableBehavior="single">
+        <item
+            android:id="@+id/exit"
+            android:icon="@drawable/ic_logout"
+            android:title="Выход" />
+
     </group>
 </menu>

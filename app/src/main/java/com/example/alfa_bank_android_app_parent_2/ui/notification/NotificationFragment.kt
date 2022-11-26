@@ -280,7 +280,7 @@ class NotificationFragment : Fragment() {
         ((dayOfWeek.value + 1).toString() + "0" + requestCode.toString()).toInt()
 
     private fun hiddenBottomSheet() {
-        BottomSheetBehavior.from(binding.bottomSheet).setState(BottomSheetBehavior.STATE_HIDDEN)
+        BottomSheetBehavior.from(binding.bottomSheet).state=BottomSheetBehavior.STATE_HIDDEN
     }
 
     private fun initializeNotificationButton() {

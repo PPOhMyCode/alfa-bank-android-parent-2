@@ -22,7 +22,7 @@
         app:layout_constraintTop_toTopOf="parent">
 
         <ImageView
-            android:id="@+id/childImage"
+            android:id="@+id/dishImage2"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:background="@color/A7D7AF"
@@ -39,14 +39,14 @@
         >
 
         <TextView
-            android:id="@+id/name"
+            android:id="@+id/firstName"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="TextView"
             app:layout_constraintStart_toStartOf="parent" />
 
         <TextView
-            android:id="@+id/category"
+            android:id="@+id/lastName"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="TextView" />

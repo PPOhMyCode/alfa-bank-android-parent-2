@@ -4,9 +4,11 @@
     <option name="filePathToZoomLevelMap">
       <map>
         <entry key="..\:/Users/adasd/Desktop/PPOhMyCode/alfa-bank-android-app-parent-2/alfa-bank-android-parent-2/app/src/main/res/drawable-v24/ic_launcher_foreground.xml" value="0.1565" />
+        <entry key="..\:/Users/adasd/Desktop/PPOhMyCode/alfa-bank-android-app-parent-2/alfa-bank-android-parent-2/app/src/main/res/drawable-v24/provider_file_2.xml" value="0.158" />
         <entry key="..\:/Users/adasd/Desktop/PPOhMyCode/alfa-bank-android-app-parent-2/alfa-bank-android-parent-2/app/src/main/res/drawable/bottom_sheet_container_notification.xml" value="0.1565" />
         <entry key="..\:/Users/adasd/Desktop/PPOhMyCode/alfa-bank-android-app-parent-2/alfa-bank-android-parent-2/app/src/main/res/drawable/ic_baseline_add_24.xml" value="0.1565" />
         <entry key="..\:/Users/adasd/Desktop/PPOhMyCode/alfa-bank-android-app-parent-2/alfa-bank-android-parent-2/app/src/main/res/drawable/ic_baseline_backspace_24.xml" value="0.1565" />
+        <entry key="..\:/Users/adasd/Desktop/PPOhMyCode/alfa-bank-android-app-parent-2/alfa-bank-android-parent-2/app/src/main/res/drawable/ic_baseline_content_copy_24.xml" value="0.158" />
         <entry key="..\:/Users/adasd/Desktop/PPOhMyCode/alfa-bank-android-app-parent-2/alfa-bank-android-parent-2/app/src/main/res/drawable/ic_baseline_fingerprint_24.xml" value="0.1565" />
         <entry key="..\:/Users/adasd/Desktop/PPOhMyCode/alfa-bank-android-app-parent-2/alfa-bank-android-parent-2/app/src/main/res/drawable/ic_baseline_full_circle_24.xml" value="0.1565" />
         <entry key="..\:/Users/adasd/Desktop/PPOhMyCode/alfa-bank-android-app-parent-2/alfa-bank-android-parent-2/app/src/main/res/drawable/ic_baseline_keyboard_arrow_down_24.xml" value="0.1565" />
@@ -17,6 +19,7 @@
         <entry key="..\:/Users/adasd/Desktop/PPOhMyCode/alfa-bank-android-app-parent-2/alfa-bank-android-parent-2/app/src/main/res/drawable/ic_menu_camera.xml" value="0.1565" />
         <entry key="..\:/Users/adasd/Desktop/PPOhMyCode/alfa-bank-android-app-parent-2/alfa-bank-android-parent-2/app/src/main/res/drawable/ic_menu_gallery.xml" value="0.1565" />
         <entry key="..\:/Users/adasd/Desktop/PPOhMyCode/alfa-bank-android-app-parent-2/alfa-bank-android-parent-2/app/src/main/res/drawable/ic_menu_slideshow.xml" value="0.1565" />
+        <entry key="..\:/Users/adasd/Desktop/PPOhMyCode/alfa-bank-android-app-parent-2/alfa-bank-android-parent-2/app/src/main/res/drawable/ic_trash.xml" value="0.124" />
         <entry key="..\:/Users/adasd/Desktop/PPOhMyCode/alfa-bank-android-app-parent-2/alfa-bank-android-parent-2/app/src/main/res/drawable/rounded_button.xml" value="0.1565" />
         <entry key="..\:/Users/adasd/Desktop/PPOhMyCode/alfa-bank-android-app-parent-2/alfa-bank-android-parent-2/app/src/main/res/drawable/side_nav_bar.xml" value="0.1565" />
         <entry key="..\:/Users/adasd/Desktop/PPOhMyCode/alfa-bank-android-app-parent-2/alfa-bank-android-parent-2/app/src/main/res/layout/activity_authorization.xml" value="0.25416666666666665" />
@@ -55,9 +58,11 @@
         <entry key="..\:/Users/adasd/Desktop/PPOhMyCode/alfa-bank-android-app-parent-2/alfa-bank-android-parent-2/app/src/main/res/layout/item_recyclerview_authentication.xml" value="0.25416666666666665" />
         <entry key="..\:/Users/adasd/Desktop/PPOhMyCode/alfa-bank-android-app-parent-2/alfa-bank-android-parent-2/app/src/main/res/layout/nav_header.xml" value="0.253125" />
         <entry key="..\:/Users/adasd/Desktop/PPOhMyCode/alfa-bank-android-app-parent-2/alfa-bank-android-parent-2/app/src/main/res/layout/nav_header_main.xml" value="0.25416666666666665" />
+        <entry key="..\:/Users/adasd/Desktop/PPOhMyCode/alfa-bank-android-app-parent-2/alfa-bank-android-parent-2/app/src/main/res/layout/provider_file.xml" value="0.253125" />
         <entry key="..\:/Users/adasd/Desktop/PPOhMyCode/alfa-bank-android-app-parent-2/alfa-bank-android-parent-2/app/src/main/res/menu/activity_child_drawer.xml" value="0.264" />
         <entry key="..\:/Users/adasd/Desktop/PPOhMyCode/alfa-bank-android-app-parent-2/alfa-bank-android-parent-2/app/src/main/res/menu/activity_main_drawer.xml" value="0.264" />
         <entry key="..\:/Users/adasd/Desktop/PPOhMyCode/alfa-bank-android-app-parent-2/alfa-bank-android-parent-2/app/src/main/res/menu/main.xml" value="0.25416666666666665" />
+        <entry key="..\:/Users/adasd/Desktop/PPOhMyCode/alfa-bank-android-app-parent-2/alfa-bank-android-parent-2/app/src/main/res/xml/paths.xml" value="0.253125" />
       </map>
     </option>
   </component>

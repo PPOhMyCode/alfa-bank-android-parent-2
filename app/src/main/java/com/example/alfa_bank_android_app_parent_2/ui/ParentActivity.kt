@@ -1,34 +1,35 @@
 package com.example.alfa_bank_android_app_parent_2.ui
 
-
-import android.app.AlarmManager
+import android.R.attr
+import android.app.Activity
 import android.app.AlertDialog
-import android.app.PendingIntent
 import android.content.Context
+import android.content.Intent
+import android.graphics.Bitmap
+import android.graphics.BitmapFactory
 import android.os.Bundle
-import android.util.Log
+import android.os.Environment
+import android.provider.MediaStore
+import android.widget.ImageView
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.content.ContextCompat
 import androidx.core.view.GravityCompat
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.lifecycleScope
 import com.example.alfa_bank_android_app_parent_2.R
 import com.example.alfa_bank_android_app_parent_2.databinding.ActivityParentBinding
 import com.example.alfa_bank_android_app_parent_2.ui.children.ChildrenFragment
 import com.example.alfa_bank_android_app_parent_2.ui.notification.NotificationFragment
-import com.example.alfa_bank_android_app_parent_2.ui.service.AlarmReceiver
 import com.example.alfa_bank_android_app_parent_2.ui.settings.SettingsFragment
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
-import android.content.DialogInterface
-import android.content.Intent
-import androidx.lifecycle.lifecycleScope
+import java.io.File
 
 
 class ParentActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityParentBinding
+    private lateinit var filePhoto: File
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -36,7 +37,8 @@ class ParentActivity : AppCompatActivity() {
         setContentView(binding.root)
         initializeNavigation()
         initializeButtonNav()
-
+        filePhoto = getPhotoFile("photo.jpg")
+        initializeAvatarClickListener()
     }
 
     override fun onBackPressed() {
@@ -49,6 +51,43 @@ class ParentActivity : AppCompatActivity() {
             }
         }
     }
+
+    @Deprecated("Deprecated in Java")
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        if (requestCode == 1 && resultCode == Activity.RESULT_OK && data != null) {
+            val headerView = binding.navView.getHeaderView(0)
+            headerView?.findViewById<ImageView>(R.id.AvatarImageView)
+                ?.setImageBitmap(data.extras?.get("data") as Bitmap?)
+        } else {
+            super.onActivityResult(requestCode, resultCode, data)
+        }
+
+    }
+
+    private fun initializeAvatarClickListener() {
+        val headerView = binding.navView.getHeaderView(0)
+        headerView?.findViewById<ImageView>(R.id.AvatarImageView)?.setOnClickListener {
+            val takePhotoIntent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
+            startActivityForResult(takePhotoIntent, 1)
+            //startActivityForResult(takePhotoIntent, 1)
+            //val filePhoto2 = getPhotoFile("photo.jpg")
+
+            //val providerFile =
+            //      FileProvider.getUriForFile(
+            //          this,
+            //         "com.example.androidcamera.fileprovider",
+            //         filePhoto2
+            //     )
+            //takePhotoIntent.putExtra(MediaStore.EXTRA_OUTPUT, providerFile)
+            //startActivityForResult(takePhotoIntent,1)
+        }
+    }
+
+    private fun getPhotoFile(fileName: String): File {
+        val directoryStorage = getExternalFilesDir(Environment.DIRECTORY_PICTURES)
+        return File.createTempFile(fileName, ".jpg", directoryStorage)
+    }
+
 
     private fun confirmExit(funAfterConfirm: () -> Unit) {
         val builder = AlertDialog.Builder(this)

@@ -11,7 +11,6 @@ import androidx.cardview.widget.CardView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.alfa_bank_android_app_parent_2.R
 import com.example.alfa_bank_android_app_parent_2.domain.entiies.Dish
-import org.w3c.dom.Text
 
 class DishListAdapter() : RecyclerView.Adapter<DishListAdapter.ItemHolder>() {
     var dishes: List<Dish> = listOf()
@@ -88,7 +87,7 @@ class DishListAdapter() : RecyclerView.Adapter<DishListAdapter.ItemHolder>() {
         var deleteDish: ImageButton = itemView.findViewById(R.id.deleteDish)
         var count: TextView = itemView.findViewById(R.id.count)
         var nameDish: TextView = itemView.findViewById(R.id.nameDishTextView)
-        var dishImage: ImageView = itemView.findViewById(R.id.dishImage2)
+        var dishImage: ImageView = itemView.findViewById(R.id.AvatarImageView)
         var countAndCostInformation: CardView = itemView.findViewById(R.id.countAndCostInformation)
     }
 }

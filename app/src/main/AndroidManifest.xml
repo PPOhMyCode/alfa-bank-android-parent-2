@@ -5,6 +5,7 @@
 
     <uses-permission android:name="android.permission.SCHEDULE_EXACT_ALARM" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.INTERNET" />
 
     <application
         android:allowBackup="true"
@@ -17,7 +18,7 @@
         android:theme="@style/Theme.Alfabankandroidappparent2"
         tools:targetApi="31">
         <activity
-            android:name=".ui.ParentActivity"
+            android:name=".ui.AuthorizationActivity"
             android:exported="true"
             android:label="@string/app_name"
             android:theme="@style/Theme.Alfabankandroidappparent2.NoActionBar">
@@ -28,7 +29,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".ui.AuthorizationActivity"
+            android:name=".ui.ParentActivity"
             android:theme="@style/Theme.Alfabankandroidappparent2.NoActionBar" />
         <activity
             android:name=".ui.ChildActivity"

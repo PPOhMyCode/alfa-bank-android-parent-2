@@ -1,9 +1,10 @@
-package com.example.alfa_bank_android_app_parent_2.data
+package com.example.alfa_bank_android_app_parent_2.data.preferences
 
 import android.content.Context
 import android.content.SharedPreferences
-import com.example.alfa_bank_android_app_parent_2.domain.PreferencesUser
+import com.example.alfa_bank_android_app_parent_2.domain.preferences.PreferencesUser
 import com.example.alfa_bank_android_app_parent_2.domain.entiies.Child
+import com.example.alfa_bank_android_app_parent_2.domain.entiies.Parent
 
 
 class PreferencesUserImpl(context: Context) : PreferencesUser() {
@@ -18,9 +19,9 @@ class PreferencesUserImpl(context: Context) : PreferencesUser() {
     override var userChild: Child?
         get() = getChild()
         set(value) {
-            preferencesChild.edit().putBoolean("IS_CHILD_WAS_ADDED",false).apply()
+            preferencesChild.edit().putBoolean("IS_CHILD_WAS_ADDED", false).apply()
             value?.let { child ->
-                preferencesChild.edit().putBoolean("IS_CHILD_WAS_ADDED",true).apply()
+                preferencesChild.edit().putBoolean("IS_CHILD_WAS_ADDED", true).apply()
                 with(preferencesChild.edit()) {
                     putString(FIRST_CHILD, child.firstName).apply()
                     putString(LAST_NAME, child.lastName).apply()
@@ -35,14 +36,34 @@ class PreferencesUserImpl(context: Context) : PreferencesUser() {
         get() = preferencesAuthorization.getString(USER_PIN_CODE, "")
         set(value) = preferencesAuthorization.edit().putString(USER_PIN_CODE, value).apply()
 
-    override var isUserLogged: Boolean
-        get() = preferencesAuthorization.getBoolean(IS_USER_LOGGED, false)
-        set(value) = preferencesAuthorization.edit().putBoolean(IS_USER_LOGGED, value).apply()
+    override var user: Parent?
+        get() {
+            return if (preferencesAuthorization.getBoolean(IS_USER_LOGGED, false)) {
+                val firstName = preferencesAuthorization.getString(FIRST_NAME_USER, "")?:""
+                val lastName = preferencesAuthorization.getString(LAST_NAME, "")?:""
+                val idUser = preferencesAuthorization.getInt(ID_USER, 0)
+                Parent(firstName, lastName, idUser)
+            } else {
+                null
+            }
+
+        }
+        set(value) {
+            preferencesAuthorization.edit().putBoolean(IS_USER_LOGGED, false).apply()
+            value?.let {
+                preferencesAuthorization.edit().putString(FIRST_NAME_USER, it.firstName).apply()
+                preferencesAuthorization.edit().putString(LAST_NAME, it.lastName).apply()
+                preferencesAuthorization.edit().putInt(ID_USER, it.id).apply()
+                preferencesAuthorization.edit().putBoolean(IS_USER_LOGGED, true).apply()
+            }
+
+        }
 
     private fun getChild(): Child? {
-        if (preferencesChild.getBoolean(IS_CHILD_WAS_ADDED,false)) {
+        if (preferencesChild.getBoolean(IS_CHILD_WAS_ADDED, false)) {
             with(preferencesChild) {
                 return Child(
+                    0,
                     getString(FIRST_CHILD, "") ?: "",
                     getString(LAST_NAME, "") ?: "",
                     getString(SCHOOL_CLASS, "") ?: "",
@@ -57,6 +78,9 @@ class PreferencesUserImpl(context: Context) : PreferencesUser() {
 
     companion object {
         const val IS_USER_LOGGED = "IS_USER_LOGGED"
+        const val FIRST_NAME_USER = "FIRST_NAME_USER"
+        const val LAST_NAME_USER = "LAST_NAME_USER"
+        const val ID_USER = "ID_USER"
         const val SHARED_PREFERENCES_AUTHORIZATION = "SHARED_PREFERENCES_AUTHORIZATION"
         const val SHARED_PREFERENCES_CHILD = "SHARED_PREFERENCES_CHILD"
         const val IS_CHILD_WAS_ADDED = "IS_CHILD_WAS_ADDED"

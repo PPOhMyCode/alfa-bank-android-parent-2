@@ -1,8 +1,8 @@
-package com.example.alfa_bank_android_app_parent_2.data
+package com.example.alfa_bank_android_app_parent_2.data.preferences
 
 import android.content.Context
 import android.content.SharedPreferences
-import com.example.alfa_bank_android_app_parent_2.domain.PreferencesNotification
+import com.example.alfa_bank_android_app_parent_2.domain.preferences.PreferencesNotification
 import com.example.alfa_bank_android_app_parent_2.domain.entiies.Notification
 import java.sql.Time
 import java.time.DayOfWeek

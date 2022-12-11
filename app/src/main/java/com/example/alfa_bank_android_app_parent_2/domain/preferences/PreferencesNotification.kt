@@ -1,4 +1,4 @@
-package com.example.alfa_bank_android_app_parent_2.domain
+package com.example.alfa_bank_android_app_parent_2.domain.preferences
 
 import com.example.alfa_bank_android_app_parent_2.domain.entiies.Notification
 

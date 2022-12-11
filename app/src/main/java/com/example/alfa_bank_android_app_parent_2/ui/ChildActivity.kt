@@ -1,5 +1,6 @@
 package com.example.alfa_bank_android_app_parent_2.ui
 
+import android.annotation.SuppressLint
 import android.app.AlertDialog
 import android.content.Intent
 import android.os.Bundle
@@ -8,15 +9,20 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.GravityCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
+
 import com.example.alfa_bank_android_app_parent_2.R
 import com.example.alfa_bank_android_app_parent_2.databinding.ActivityChildBinding
 import com.example.alfa_bank_android_app_parent_2.domain.entiies.Child
-import com.example.alfa_bank_android_app_parent_2.ui.children.ChildrenFragment
-import com.example.alfa_bank_android_app_parent_2.ui.notification.NotificationFragment
-import com.example.alfa_bank_android_app_parent_2.ui.settings.SettingsFragment
+import com.example.alfa_bank_android_app_parent_2.ui.menu.MenuFragment
+
+import com.example.alfa_bank_android_app_parent_2.ui.history.NutritionHistoryFragment
+import com.google.android.material.datepicker.MaterialDatePicker
+
+
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
+import org.w3c.dom.Text
 
 class ChildActivity : AppCompatActivity() {
 
@@ -49,7 +55,20 @@ class ChildActivity : AppCompatActivity() {
     private fun initializeNavigation() {
         binding.navView.setNavigationItemSelectedListener {
             when (it.itemId) {
-                R.id.exit->{
+                R.id.this_week -> {
+                    goToFragment(MenuFragment())
+                    true
+                }
+                R.id.next_week -> {
+                    goToFragment(MenuFragment())
+                    true
+
+                }
+                R.id.history -> {
+                    goToFragment(NutritionHistoryFragment())
+                    true
+                }
+                R.id.exit -> {
                     val intent = ParentActivity.newIntent(this)
                     this.startActivity(intent)
                     finish()
@@ -68,7 +87,7 @@ class ChildActivity : AppCompatActivity() {
 
     private fun goToFragment(fragment: Fragment) {
         supportFragmentManager.beginTransaction()
-            .replace(R.id.nav_host_fragment_content_main, fragment)
+            .replace(R.id.nav_host_fragment_content_child, fragment)
             .commit()
         closeDrawerLayout(fragment)
     }
@@ -85,9 +104,10 @@ class ChildActivity : AppCompatActivity() {
         builder.setTitle("School food")
         builder.setMessage("Вы точно хотите выйти?")
         builder.setCancelable(true)
-        builder.setPositiveButton("Нет"
+        builder.setPositiveButton(
+            "Нет"
         ) { _, _ -> }
-        builder.setNegativeButton("Да"){_,_->funAfterConfirm.invoke()}
+        builder.setNegativeButton("Да") { _, _ -> funAfterConfirm.invoke() }
         builder.show()
     }
 
@@ -97,12 +117,25 @@ class ChildActivity : AppCompatActivity() {
         }
     }
 
+
     private fun initializeDrawerLayout() {
         val child = intent.extras?.get(CHILD) as Child?
         child?.let {
             with(binding.navView.getHeaderView(0)) {
-                findViewById<TextView>(R.id.firstName).text = it.firstName
-                findViewById<TextView>(R.id.lastName).text = it.lastName
+                findViewById<TextView>(R.id.name).text = "${it.firstName} ${it.lastName}"
+                findViewById<TextView>(R.id.schoolClass).text = "${it.schoolClass} А класс"
+                findViewById<TextView>(R.id.isEat).setOnClickListener {
+                    val datePicker =
+                        MaterialDatePicker.Builder.dateRangePicker()
+                            .setTitleText("Дни, когда ребенк не будет питаться")
+                            .setSelection(androidx.core.util.Pair(
+                                MaterialDatePicker.thisMonthInUtcMilliseconds(),
+                                MaterialDatePicker.todayInUtcMilliseconds()
+                            ))
+                            .build()
+
+                    datePicker.show(supportFragmentManager, "Tag")
+                }
             }
         }
     }

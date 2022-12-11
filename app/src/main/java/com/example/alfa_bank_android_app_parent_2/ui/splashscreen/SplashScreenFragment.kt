@@ -32,9 +32,9 @@ class SplashScreenFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         lifecycleScope.launch {
             delay(1000)
-            when (viewModel.preferences.isUserLogged) {
-                true -> launchAuthorizationFragment()
-                false -> launchAuthenticationFragment()
+            when (viewModel.preferences.user) {
+                null -> launchAuthenticationFragment()
+                else -> launchAuthorizationFragment()
             }
         }
 

@@ -2,8 +2,7 @@ package com.example.alfa_bank_android_app_parent_2.ui.notification
 
 import android.app.Application
 import androidx.lifecycle.AndroidViewModel
-import com.example.alfa_bank_android_app_parent_2.data.PreferencesNotificationImpl
-import com.example.alfa_bank_android_app_parent_2.data.PreferencesUserImpl
+import com.example.alfa_bank_android_app_parent_2.data.preferences.PreferencesNotificationImpl
 import com.example.alfa_bank_android_app_parent_2.domain.entiies.Notification
 
 class NotificationViewModel(application: Application) : AndroidViewModel(application) {

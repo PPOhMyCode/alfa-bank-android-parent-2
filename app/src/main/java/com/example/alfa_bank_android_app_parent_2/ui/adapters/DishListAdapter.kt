@@ -50,6 +50,7 @@ class DishListAdapter() : RecyclerView.Adapter<DishListAdapter.ItemHolder>() {
             onImageItemClick?.invoke(dishes[position])
         }
         holder.addDish.setOnClickListener {
+            if((dishCount[dishes[position].id] ?: 0) <3){
             onAddItemClick?.invoke(dishes[position])
             holder.deleteDish.visibility = View.VISIBLE
             if((dishCount[dishes[position].id] ?: 0) > 1){
@@ -60,6 +61,7 @@ class DishListAdapter() : RecyclerView.Adapter<DishListAdapter.ItemHolder>() {
             holder.deleteDish.visibility = View.VISIBLE
             holder.count.visibility = View.VISIBLE
             holder.count.text="${dishCount[dishes[position].id]} шт"
+            }
         }
         holder.deleteDish.setOnClickListener {
             onDeleteItemClick?.invoke(dishes[position])

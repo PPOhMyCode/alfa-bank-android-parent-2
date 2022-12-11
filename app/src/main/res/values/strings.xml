@@ -37,11 +37,11 @@
     <string name="chooseDayNotification">Выбрать день уведомлений</string>
     <string name="Exit">Выход</string>
     <string name="ThereAreNoDishesOnThisDay">Отсутствует меню</string>
-    <string name="DefaultName">Мария Синицина</string>
-    <string name="DefaultDay">Понедельник</string>
+    <string name="DefaultName">ФИО ученика</string>
+    <string name="DefaultDay">День недели</string>
     <string name="DefaultType">Завтрак</string>
     <string name="defaultDish">Сыр 2шт</string>
-    <string name="defaultBill">Стоимость: 100 руб.</string>
+    <string name="defaultBill">Стоимость</string>
     <string name="placeAnOrder">Оформить заказ</string>
     <string name="porridge">Каша овсяная</string>
     <string name="defaultWeight">150 г</string>
@@ -51,9 +51,9 @@
     <string name="carbohydrates">углеводы</string>
     <string name="composition">Состав:</string>
     <string name="defaultComposition">Крупа овсяная, молоко, сливочное масло</string>
-    <string name="defaultNotificationView">Текст при копировании в меню:</string>
-    <string name="defaultCalories">Ккал: 600</string>
-    <string name="defaultSquirrels">Белки: 20</string>
-    <string name="defaultFats">Жиры: 80</string>
-    <string name="defaultCarbohydrates">Углеводы: 100</string>
+    <string name="defaultNotificationView">Что копировать из меню?</string>
+    <string name="defaultCalories">Ккал</string>
+    <string name="defaultSquirrels">Белки</string>
+    <string name="defaultFats">Жиры</string>
+    <string name="defaultCarbohydrates">Углеводы</string>
 </resources>

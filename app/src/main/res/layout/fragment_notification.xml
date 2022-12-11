@@ -5,7 +5,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".ui.notification.NotificationFragment">
+    tools:context=".ui.notification.NotificationFragment"
+    android:backgroundTint="@color/fbfff9">
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/notificationRecyclerView"
@@ -124,6 +125,8 @@
                     android:layout_marginStart="16dp"
                     android:layout_marginTop="8dp"
                     android:text="@string/monday"
+                    android:buttonTint="@color/A7D7AF"
+
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/textView4" />
 
@@ -132,6 +135,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="16dp"
+                    android:buttonTint="@color/A7D7AF"
                     android:text="@string/tuesday"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/checkbox_monday" />
@@ -140,6 +144,7 @@
                     android:id="@+id/checkbox_wednesday"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:buttonTint="@color/A7D7AF"
                     android:layout_marginStart="16dp"
                     android:text="@string/wednesday"
                     app:layout_constraintStart_toStartOf="parent"
@@ -149,6 +154,7 @@
                     android:id="@+id/checkbox_thursday"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:buttonTint="@color/A7D7AF"
                     android:layout_marginStart="16dp"
                     android:text="@string/thursday"
                     app:layout_constraintStart_toStartOf="parent"
@@ -158,6 +164,7 @@
                     android:id="@+id/checkbox_friday"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:buttonTint="@color/A7D7AF"
                     android:layout_marginStart="16dp"
                     android:text="@string/friday"
                     app:layout_constraintStart_toStartOf="parent"
@@ -167,6 +174,7 @@
                     android:id="@+id/checkbox_saturday"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:buttonTint="@color/A7D7AF"
                     android:layout_marginStart="16dp"
                     android:text="@string/saturday"
                     app:layout_constraintStart_toStartOf="parent"
@@ -177,6 +185,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="16dp"
+                    android:buttonTint="@color/A7D7AF"
                     android:text="@string/sunday"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/checkbox_saturday" />
@@ -186,11 +195,13 @@
     </com.google.android.material.card.MaterialCardView>
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:elevation="0dp"
         android:id="@+id/addNotificationButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_margin="@dimen/activity_vertical_margin"
         android:src="@drawable/ic_baseline_add_24"
+        android:backgroundTint="@color/B9DFBF"
         app:layout_anchor="@+id/bottom_sheet"
         app:layout_anchorGravity="top|center" />
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

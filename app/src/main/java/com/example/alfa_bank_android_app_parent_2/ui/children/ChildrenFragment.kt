@@ -11,6 +11,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.alfa_bank_android_app_parent_2.R
 import com.example.alfa_bank_android_app_parent_2.databinding.FragmentAuthenticationBinding
 import com.example.alfa_bank_android_app_parent_2.databinding.FragmentChildrenBinding
+import com.example.alfa_bank_android_app_parent_2.domain.entiies.Child
 import com.example.alfa_bank_android_app_parent_2.ui.ChildActivity
 import com.example.alfa_bank_android_app_parent_2.ui.adapters.ChildListAdapter
 import com.google.android.material.divider.MaterialDividerItemDecoration
@@ -30,24 +31,30 @@ class ChildrenFragment : Fragment() {
     ): View {
         _binding = FragmentChildrenBinding.inflate(inflater, container, false)
         viewModel = ChildrenViewModel(requireActivity().application)
+        viewModel.loadChildren()
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        //binding.childrenRecyclerView.adapter
-        val childListAdapter = ChildListAdapter(viewModel.loadChildren())
+        viewModel.children.observe(requireActivity()) {
+            it?.let { it1 -> initializeRecyclerView(it1) }
+        }
+    }
+
+    private fun initializeRecyclerView(children: List<Child>) {
+        val childListAdapter = ChildListAdapter(children)
         childListAdapter.onItemClick = {
             viewModel.preferences.userChild = it
-            val intent = ChildActivity.newIntent(requireActivity(),it)
+            val intent = ChildActivity.newIntent(requireActivity(), it)
             requireActivity().startActivity(intent)
             requireActivity().finish()
         }
         val divider = MaterialDividerItemDecoration(
             requireActivity(),
-            LinearLayoutManager.VERTICAL /*or LinearLayoutManager.HORIZONTAL*/
+            LinearLayoutManager.VERTICAL
         )
-        divider.isLastItemDecorated=false
+        divider.isLastItemDecorated = false
         with(binding.childrenRecyclerView) {
             adapter = childListAdapter
             layoutManager =
@@ -56,7 +63,6 @@ class ChildrenFragment : Fragment() {
             addItemDecoration(divider)
         }
     }
-
 
 
 }

@@ -9,7 +9,7 @@ import androidx.navigation.fragment.NavHostFragment.Companion.findNavController
 import com.example.alfa_bank_android_app_parent_2.domain.entiies.AuthenticationItemsForAdapter
 import com.example.alfa_bank_android_app_parent_2.domain.entiies.PinClass
 import com.example.alfa_bank_android_app_parent_2.R
-import com.example.alfa_bank_android_app_parent_2.data.PreferencesUserImpl
+import com.example.alfa_bank_android_app_parent_2.data.preferences.PreferencesUserImpl
 import com.example.alfa_bank_android_app_parent_2.domain.entiies.AuthenticationMode
 
 
@@ -42,7 +42,7 @@ class AuthenticationViewModel(
 
                 })
             addString(AuthenticationItemsForAdapter.ItemString("выход") {
-                userPreferences.isUserLogged = false
+                userPreferences.user = null
                 findNavController(fragment as AuthenticationFragment).navigate(
                     AuthenticationFragmentDirections.actionAuthenticationToAuthorization()
                 )

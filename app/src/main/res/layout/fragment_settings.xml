@@ -12,6 +12,8 @@
     <com.google.android.material.card.MaterialCardView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        app:cardBackgroundColor="@color/fbfff9"
+        app:cardElevation="0dp"
         app:cardCornerRadius="16dp">
 
         <LinearLayout
@@ -21,6 +23,7 @@
             android:layout_margin="16dp">
 
             <TextView
+                android:layout_gravity="center"
                 android:layout_marginTop="8dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -34,56 +37,52 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/DefaultName"
+                android:buttonTint="@color/A7D7AF"
                 android:textColor="@color/black"
                 />
             <CheckBox
                 android:id="@+id/dayCheckBox"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:buttonTint="@color/A7D7AF"
                 android:text="@string/DefaultDay"
                 android:textColor="@color/black"/>
-            <TextView
-                android:layout_marginTop="8dp"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/DefaultType"
-                android:textColor="@color/black"/>
-            <TextView
-                android:layout_marginTop="8dp"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/defaultDish"
-                android:textColor="@color/black"/>
+
             <CheckBox
                 android:id="@+id/billCheckBox"
                 android:layout_marginTop="8dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/defaultBill"
+                android:buttonTint="@color/A7D7AF"
                 android:textColor="@color/black"/>
             <CheckBox
                 android:id="@+id/squirrelsCheckBox"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/defaultSquirrels"
+                android:buttonTint="@color/A7D7AF"
                 android:textColor="@color/black"/>
             <CheckBox
                 android:id="@+id/fatCheckBox"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/defaultFats"
+                android:buttonTint="@color/A7D7AF"
                 android:textColor="@color/black"/>
             <CheckBox
                 android:id="@+id/carbohydratesCheckBox"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/defaultCarbohydrates"
+                android:buttonTint="@color/A7D7AF"
                 android:textColor="@color/black"/>
             <CheckBox
                 android:id="@+id/caloriesCheckBox"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/defaultCalories"
+                android:buttonTint="@color/A7D7AF"
                 android:textColor="@color/black"/>
         </LinearLayout>
     </com.google.android.material.card.MaterialCardView>

@@ -120,7 +120,7 @@ class AuthenticationFragment : Fragment() {
                 it?.let { pinCode ->
                     viewModel.userPreferences.userPinCode = pinCode
                 }
-                viewModel.userPreferences.isUserLogged = true
+
                 viewModel.pinClass.removePin()
                 val activity = requireActivity()
                 val intent = Intent(activity,ParentActivity::class.java)

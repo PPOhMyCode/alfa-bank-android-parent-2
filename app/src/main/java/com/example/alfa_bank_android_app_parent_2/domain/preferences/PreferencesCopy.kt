@@ -1,4 +1,4 @@
-package com.example.alfa_bank_android_app_parent_2.domain
+package com.example.alfa_bank_android_app_parent_2.domain.preferences
 
 abstract class PreferencesCopy {
     abstract var isNeedToDisplayName:Boolean

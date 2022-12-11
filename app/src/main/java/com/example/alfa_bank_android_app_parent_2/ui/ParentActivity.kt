@@ -1,16 +1,20 @@
 package com.example.alfa_bank_android_app_parent_2.ui
 
+import android.Manifest
 import android.R.attr
 import android.app.Activity
 import android.app.AlertDialog
 import android.content.Context
 import android.content.Intent
+import android.content.pm.PackageManager
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
+import android.os.Build
 import android.os.Bundle
 import android.os.Environment
 import android.provider.MediaStore
 import android.widget.ImageView
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.GravityCompat
 import androidx.fragment.app.Fragment
@@ -54,7 +58,19 @@ class ParentActivity : AppCompatActivity() {
 
     @Deprecated("Deprecated in Java")
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        if (requestCode == 1 && resultCode == Activity.RESULT_OK && data != null) {
+        if (resultCode != Activity.RESULT_OK || data == null) {
+            super.onActivityResult(requestCode, resultCode, data)
+            return
+        }
+        if(resultCode==1001){
+            if (checkSelfPermission(Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_DENIED){
+                loadPhotosFromGallery()
+            }else{
+                chooseImageGallery()
+            }
+        }
+
+        if (requestCode == 1) {
             val headerView = binding.navView.getHeaderView(0)
             headerView?.findViewById<ImageView>(R.id.AvatarImageView)
                 ?.setImageBitmap(data.extras?.get("data") as Bitmap?)
@@ -67,20 +83,30 @@ class ParentActivity : AppCompatActivity() {
     private fun initializeAvatarClickListener() {
         val headerView = binding.navView.getHeaderView(0)
         headerView?.findViewById<ImageView>(R.id.AvatarImageView)?.setOnClickListener {
-            val takePhotoIntent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
-            startActivityForResult(takePhotoIntent, 1)
-            //startActivityForResult(takePhotoIntent, 1)
-            //val filePhoto2 = getPhotoFile("photo.jpg")
-
-            //val providerFile =
-            //      FileProvider.getUriForFile(
-            //          this,
-            //         "com.example.androidcamera.fileprovider",
-            //         filePhoto2
-            //     )
-            //takePhotoIntent.putExtra(MediaStore.EXTRA_OUTPUT, providerFile)
-            //startActivityForResult(takePhotoIntent,1)
+            loadPhotosFromGallery()
         }
+    }
+
+    private fun loadPhotosFromGallery() {
+        if (checkSelfPermission(Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_DENIED) {
+            val permissions = arrayOf(Manifest.permission.READ_EXTERNAL_STORAGE)
+            requestPermissions(permissions, 1001)
+        } else {
+            makePhoto()
+            //chooseImageGallery();
+        }
+    }
+
+
+    private fun chooseImageGallery() {
+        val intent = Intent(Intent.ACTION_PICK)
+        intent.type = "image/*"
+        startActivityForResult(intent, 1000)
+    }
+
+    private fun makePhoto() {
+        val takePhotoIntent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
+        startActivityForResult(takePhotoIntent, 1)
     }
 
     private fun getPhotoFile(fileName: String): File {

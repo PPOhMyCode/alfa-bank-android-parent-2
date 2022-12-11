@@ -19,14 +19,13 @@ import com.example.alfa_bank_android_app_parent_2.domain.entiies.Dish
 import com.example.alfa_bank_android_app_parent_2.domain.entiies.TypeOfMeal
 import com.example.alfa_bank_android_app_parent_2.ui.adapters.DishListAdapter
 import com.google.android.material.bottomsheet.BottomSheetBehavior
-import com.google.android.material.shape.CornerFamily
 import java.time.DayOfWeek
 import java.time.LocalDate
 import java.time.temporal.TemporalAdjusters
 
 class MenuFragment : Fragment() {
 
-    private val viewModel by lazy{
+    private val viewModel by lazy {
         ViewModelProvider(this)[MenuViewModel::class.java]
     }
 
@@ -34,6 +33,7 @@ class MenuFragment : Fragment() {
 
     private var typeOfMeal = TypeOfMeal.BREAKFAST
     private var dayOfWeek = DayOfWeek.MONDAY
+    private var date: String? = null
     private var _binding: FragmentMenuBinding? = null
 
 
@@ -120,9 +120,6 @@ class MenuFragment : Fragment() {
             BottomSheetBehavior.from(this).state =
                 BottomSheetBehavior.STATE_EXPANDED
         }
-
-
-
         with(dish) {
             binding.dishTitleTextView.text = name
             binding.dishWeight.text = weight.toString()
@@ -136,16 +133,20 @@ class MenuFragment : Fragment() {
 
 
     private fun loadDishes() {
-        val dishes = viewModel.loadDishes(typeOfMeal, dayOfWeek)
-        if (dishes.isNullOrEmpty()) {
-            binding.recyclerView.visibility = View.INVISIBLE
-            binding.noDishTextView.visibility = View.VISIBLE
-            return
+        viewModel.loadDishes(typeOfMeal, dayOfWeek.dayOfMonth().toString())
+        viewModel.dishes.observe(requireActivity()) {
+            val dishes = it
+            if (dishes.isNullOrEmpty()) {
+                binding.recyclerView.visibility = View.INVISIBLE
+                binding.noDishTextView.visibility = View.VISIBLE
+
+            } else {
+                binding.recyclerView.visibility = View.VISIBLE
+                binding.noDishTextView.visibility = View.INVISIBLE
+                dishListAdapter.dishes = dishes
+                dishListAdapter.notifyDataSetChanged()
+            }
         }
-        binding.recyclerView.visibility = View.VISIBLE
-        binding.noDishTextView.visibility = View.INVISIBLE
-        dishListAdapter.dishes = dishes
-        dishListAdapter.notifyDataSetChanged()
     }
 
     private fun copyText(text: String) {
@@ -203,26 +204,31 @@ class MenuFragment : Fragment() {
             setDefaultBackgroundColorDays()
             binding.mondayCardView.setCardBackgroundColor(resources.getColor(R.color.eafbe2))
             dayOfWeek = DayOfWeek.MONDAY
+            loadDishes()
         }
         binding.tuesdayCardView.setOnClickListener {
             setDefaultBackgroundColorDays()
             binding.tuesdayCardView.setCardBackgroundColor(resources.getColor(R.color.eafbe2))
             dayOfWeek = DayOfWeek.TUESDAY
+            loadDishes()
         }
         binding.wednesdayCardView.setOnClickListener {
             setDefaultBackgroundColorDays()
             binding.wednesdayCardView.setCardBackgroundColor(resources.getColor(R.color.eafbe2))
             dayOfWeek = DayOfWeek.WEDNESDAY
+            loadDishes()
         }
         binding.thursdayCardView.setOnClickListener {
             setDefaultBackgroundColorDays()
             binding.thursdayCardView.setCardBackgroundColor(resources.getColor(R.color.eafbe2))
             dayOfWeek = DayOfWeek.THURSDAY
+            loadDishes()
         }
         binding.fridayCardView.setOnClickListener {
             setDefaultBackgroundColorDays()
             binding.fridayCardView.setCardBackgroundColor(resources.getColor(R.color.eafbe2))
             dayOfWeek = DayOfWeek.FRIDAY
+            loadDishes()
         }
     }
 

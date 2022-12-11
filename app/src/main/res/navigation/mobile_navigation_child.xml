@@ -10,4 +10,9 @@
         android:name="com.example.alfa_bank_android_app_parent_2.ui.menu.MenuFragment"
         android:label="fragment_menu3"
         tools:layout="@layout/fragment_menu" />
+    <fragment
+        android:id="@+id/nutritionHistoryFragment"
+        android:name="com.example.alfa_bank_android_app_parent_2.ui.history.NutritionHistoryFragment"
+        android:label="fragment_nutrition_history"
+        tools:layout="@layout/fragment_nutrition_history" />
 </navigation>

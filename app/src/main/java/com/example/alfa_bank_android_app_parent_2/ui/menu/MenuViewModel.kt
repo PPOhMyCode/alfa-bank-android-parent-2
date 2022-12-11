@@ -2,42 +2,40 @@ package com.example.alfa_bank_android_app_parent_2.ui.menu
 
 import android.app.Application
 import androidx.lifecycle.AndroidViewModel
-import androidx.lifecycle.ViewModel
-import com.example.alfa_bank_android_app_parent_2.data.PreferencesCopyImpl
-import com.example.alfa_bank_android_app_parent_2.data.PreferencesUserImpl
-import com.example.alfa_bank_android_app_parent_2.domain.PreferencesCopy
-import com.example.alfa_bank_android_app_parent_2.domain.PreferencesUser
+import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.viewModelScope
+import com.example.alfa_bank_android_app_parent_2.data.preferences.PreferencesCopyImpl
+import com.example.alfa_bank_android_app_parent_2.data.preferences.PreferencesUserImpl
+import com.example.alfa_bank_android_app_parent_2.data.repository.ParentRepositoryImpl
+import com.example.alfa_bank_android_app_parent_2.domain.LoadDishesUseCase
+import com.example.alfa_bank_android_app_parent_2.domain.ParentRepository
 import com.example.alfa_bank_android_app_parent_2.domain.entiies.Dish
 import com.example.alfa_bank_android_app_parent_2.domain.entiies.TypeOfMeal
+import kotlinx.coroutines.launch
 import java.time.DayOfWeek
 
 class MenuViewModel(application: Application) : AndroidViewModel(application) {
 
     private var _preferencesUser: PreferencesUserImpl = PreferencesUserImpl(application)
     private var _preferencesCopy: PreferencesCopyImpl = PreferencesCopyImpl(application)
-
     private var _addedDishes: MutableMap<DayOfWeek, MutableMap<TypeOfMeal, MutableMap<Dish, Int>>> =
         mutableMapOf()
-
     private var _dishCount: MutableMap<Int, Int> = mutableMapOf()
 
-    fun loadDishes(typeOfMeal: TypeOfMeal, dayOfWeek: DayOfWeek): List<Dish>? {
-        return when (typeOfMeal) {
-            TypeOfMeal.BREAKFAST -> listOf(
-                Dish(8, "Сыр", "Сыр", 30F, 30F, 1F, 1F, 1F, 1F),
-                Dish(1, "Масло сливочное", "Масло сливочное", 30F, 20F, 2F, 1F, 2F, 1F),
-                Dish(2, "Каша", "Пшено, рис", 150F, 85F, 1F, 123F, 213F, 31F),
-                Dish(3, "Чай", "Вода, чай", 100F, 10F, 123F, 123F, 1231F, 2131F),
-                Dish(4, "Яблоки", "Яблоки", 70F, 20F, 1123F, 1123F, 1231F, 2131F)
-            )
-            TypeOfMeal.DINNER -> listOf(
-                Dish(5, "Рыба", "Рыба, томаты, овощи", 200F, 100F, 1F, 123F, 213F, 31F),
-                Dish(6, "Чай", "Вода, чай", 100F, 10F, 1F, 1F, 1F, 1F),
-                Dish(7, "Хлеб", "Хлеб", 100F, 2F, 1123F, 1123F, 1231F, 2131F),
-            )
-            TypeOfMeal.AFTERNOON_SNACK -> null
+
+    private var repository = ParentRepositoryImpl(application.applicationContext)
+    private var loadChildrenUseCase = LoadDishesUseCase(repository)
+
+    var dishes:MutableLiveData<List<Dish>> = MutableLiveData<List<Dish>>()
+
+
+    fun loadDishes(typeOfMeal: TypeOfMeal, dayOfMonth: String)  {
+        viewModelScope.launch {
+            dishes.value =loadChildrenUseCase.invoke("2022-12-$dayOfMonth", typeOfMeal.value.toString())
         }
     }
+
+
 
     fun addDish(dayOfWeek: DayOfWeek, typeOfMeal: TypeOfMeal, dish: Dish) {
         if (_addedDishes[dayOfWeek].isNullOrEmpty())

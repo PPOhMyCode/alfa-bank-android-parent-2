@@ -25,9 +25,9 @@ class ApiFactory {
             .build()
             .create(BdApiService::class.java)
 
-        fun getUserApiService():UserApiService = Retrofit.Builder()
+        fun getUserApiService(url: String =BASE_USER_URL):UserApiService = Retrofit.Builder()
             .addConverterFactory(GsonConverterFactory.create())
-            .baseUrl(BASE_USER_URL)
+            .baseUrl(url)
             .client(
                 OkHttpClient.Builder().addInterceptor(HttpLoggingInterceptor().apply
                 {

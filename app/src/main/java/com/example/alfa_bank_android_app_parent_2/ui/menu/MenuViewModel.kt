@@ -4,10 +4,13 @@ import android.app.Application
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
+import com.example.alfa_bank_android_app_parent_2.data.preferences.PreferencesChildImpl
 import com.example.alfa_bank_android_app_parent_2.data.preferences.PreferencesCopyImpl
 import com.example.alfa_bank_android_app_parent_2.data.preferences.PreferencesUserImpl
 import com.example.alfa_bank_android_app_parent_2.data.repository.ParentRepositoryImpl
+import com.example.alfa_bank_android_app_parent_2.domain.LoadDishesThisWeekUseCase
 import com.example.alfa_bank_android_app_parent_2.domain.LoadDishesUseCase
+import com.example.alfa_bank_android_app_parent_2.domain.MakeOrderUseCase
 import com.example.alfa_bank_android_app_parent_2.domain.ParentRepository
 import com.example.alfa_bank_android_app_parent_2.domain.entiies.Dish
 import com.example.alfa_bank_android_app_parent_2.domain.entiies.TypeOfMeal
@@ -21,20 +24,56 @@ class MenuViewModel(application: Application) : AndroidViewModel(application) {
     private var _addedDishes: MutableMap<DayOfWeek, MutableMap<TypeOfMeal, MutableMap<Dish, Int>>> =
         mutableMapOf()
     private var _dishCount: MutableMap<Int, Int> = mutableMapOf()
-
-
     private var repository = ParentRepositoryImpl(application.applicationContext)
-    private var loadChildrenUseCase = LoadDishesUseCase(repository)
+    private val loadDishesThisWeekUseCase = LoadDishesThisWeekUseCase(repository)
+    private var loadDishesUseCase = LoadDishesUseCase(repository)
+    private var makeOrderUseCase = MakeOrderUseCase(repository)
+    private var childId = PreferencesChildImpl(application.applicationContext).idChild
 
-    var dishes:MutableLiveData<List<Dish>> = MutableLiveData<List<Dish>>()
+    var statusOrder: MutableLiveData<String> = MutableLiveData<String>()
+
+    var dishes: MutableLiveData<List<Dish>> = MutableLiveData<List<Dish>>()
 
 
-    fun loadDishes(typeOfMeal: TypeOfMeal, dayOfMonth: String)  {
+    fun loadDishes(typeOfMeal: TypeOfMeal, dayOfMonth: String, mode: String) {
         viewModelScope.launch {
-            dishes.value =loadChildrenUseCase.invoke("2022-12-$dayOfMonth", typeOfMeal.value.toString())
+            when (mode) {
+                MenuFragment.LOAD_MENU_MODE -> {
+                    dishes.value =
+                        loadDishesUseCase.invoke(
+                            "2022-12-$dayOfMonth",
+                            typeOfMeal.value.toString()
+                        )
+                }
+                MenuFragment.CHOOSE_MENU_MODE -> {
+                    dishes.value = loadDishesThisWeekUseCase.invoke(
+                        "2022-12-$dayOfMonth",
+                        typeOfMeal.value.toString()
+                    )
+                }
+            }
         }
     }
 
+
+    fun makeOrders(dayOfWeek: DayOfWeek, dayOfMonth: String, typeOfMeal: TypeOfMeal) {
+        viewModelScope.launch {
+            val dishCounts = _addedDishes[dayOfWeek]?.get(typeOfMeal)?.entries
+            dishCounts?.let {
+                for (dishCount in it) {
+                    for (count in 0 until dishCount.value) {
+                        makeOrderUseCase.invoke(
+                            "2022-12-$dayOfMonth",
+                            childId,
+                            typeOfMeal.value,
+                            dishCount.key.id
+                        )
+                    }
+                }
+            }
+            statusOrder.value = "Заказ оформлен"
+        }
+    }
 
 
     fun addDish(dayOfWeek: DayOfWeek, typeOfMeal: TypeOfMeal, dish: Dish) {
@@ -77,7 +116,7 @@ class MenuViewModel(application: Application) : AndroidViewModel(application) {
         var squirrels = 0F
         var fat = 0F
         var carbohydrates = 0F
-        var calories =0F
+        var calories = 0F
         for (typeOfMeal in typesOfMeals) {
             result.append(typeOfMeal.translateDayToRussia() + "\n")
             val dishes = _addedDishes[dayOfWeek]?.get(typeOfMeal)!!.keys
@@ -86,7 +125,7 @@ class MenuViewModel(application: Application) : AndroidViewModel(application) {
                 squirrels += dish.squirrels
                 fat += dish.fat
                 carbohydrates += dish.carbohydrates
-                calories +=dish.calories
+                calories += dish.calories
                 val count = _addedDishes[dayOfWeek]?.get(typeOfMeal)
                     ?.get(dish) ?: 0
                 if (count > 0)
@@ -101,9 +140,9 @@ class MenuViewModel(application: Application) : AndroidViewModel(application) {
             result.append("Белки: $squirrels\n")
         if (_preferencesCopy.isNeedToDisplayFat)
             result.append("Жиры: $fat\n")
-        if(_preferencesCopy.isNeedToDisplayCarbohydrates)
+        if (_preferencesCopy.isNeedToDisplayCarbohydrates)
             result.append("Углеводы: $carbohydrates\n")
-        if(_preferencesCopy.isNeedToDisplayCalories)
+        if (_preferencesCopy.isNeedToDisplayCalories)
             result.append("Ккал: $calories\n")
         return result.toString()
     }

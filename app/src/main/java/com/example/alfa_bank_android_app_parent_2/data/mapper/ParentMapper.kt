@@ -1,9 +1,8 @@
 package com.example.alfa_bank_android_app_parent_2.data.mapper
 
-import com.example.alfa_bank_android_app_parent_2.data.network.modeldto.ChildDto
-import com.example.alfa_bank_android_app_parent_2.data.network.modeldto.ParentDto
-import com.example.alfa_bank_android_app_parent_2.data.network.modeldto.UserInformation
+import com.example.alfa_bank_android_app_parent_2.data.network.modeldto.*
 import com.example.alfa_bank_android_app_parent_2.domain.entiies.Child
+import com.example.alfa_bank_android_app_parent_2.domain.entiies.HistoryDish
 import com.example.alfa_bank_android_app_parent_2.domain.entiies.Parent
 import com.google.gson.Gson
 
@@ -11,7 +10,7 @@ class ParentMapper {
 
     fun mapParentDtoToParent(parentDto: ParentDto): Parent {
         val testModel = Gson().fromJson(parentDto.user, UserInformation::class.java)
-        return Parent(testModel.FirstName, testModel.SecondName, testModel.UserId)
+        return Parent(testModel.FirstName, testModel.SecondName, testModel.UserId,parentDto.url)
     }
 
     fun mapChildrenDtoToChild(childDto: ChildDto): Child {
@@ -23,6 +22,12 @@ class ParentMapper {
                 "",
                 0.0F
             )
+        }
+    }
+
+    fun mapHistoryDishDtoToHistoryDish(historyDishDtoItem: HistoryDishDtoItem):HistoryDish{
+        return with(historyDishDtoItem){
+            HistoryDish(dishId,name, weight.toString(),cost.toString(),date)
         }
     }
 }

@@ -30,6 +30,7 @@
                 android:layout_gravity="center"
                 android:orientation="vertical" >
                 <TextView
+                    android:id="@+id/firstTextView"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
@@ -38,6 +39,7 @@
                     android:textStyle="bold"
                     android:text="Меню"/>
                 <TextView
+                    android:id="@+id/secondTextView"
                     android:textSize="12sp"
                     android:textColor="@color/black"
                     android:layout_width="wrap_content"

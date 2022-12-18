@@ -7,13 +7,13 @@
         android:id="@+id/first"
         android:checkableBehavior="single">
         <item
-            android:id="@+id/next_week"
-            android:icon="@drawable/ic_shop_add"
-            android:title="Следующая неделя" />
-        <item
             android:id="@+id/this_week"
             android:icon="@drawable/ic_food_svgrepo_com_1"
             android:title="Текущая неделя" />
+        <item
+            android:id="@+id/next_week"
+            android:icon="@drawable/ic_shop_add"
+            android:title="Следующая неделя" />
         <item
             android:id="@+id/timetable"
             android:icon="@drawable/ic_calendar_2"

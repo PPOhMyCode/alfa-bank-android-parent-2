@@ -1,20 +1,16 @@
 package com.example.alfa_bank_android_app_parent_2.ui
 
 import android.Manifest
-import android.R.attr
 import android.app.Activity
 import android.app.AlertDialog
 import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.graphics.Bitmap
-import android.graphics.BitmapFactory
-import android.os.Build
 import android.os.Bundle
 import android.os.Environment
 import android.provider.MediaStore
 import android.widget.ImageView
-import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.GravityCompat
 import androidx.fragment.app.Fragment
@@ -72,7 +68,7 @@ class ParentActivity : AppCompatActivity() {
 
         if (requestCode == 1) {
             val headerView = binding.navView.getHeaderView(0)
-            headerView?.findViewById<ImageView>(R.id.AvatarImageView)
+            headerView?.findViewById<ImageView>(R.id.dishImageView)
                 ?.setImageBitmap(data.extras?.get("data") as Bitmap?)
         } else {
             super.onActivityResult(requestCode, resultCode, data)
@@ -82,7 +78,7 @@ class ParentActivity : AppCompatActivity() {
 
     private fun initializeAvatarClickListener() {
         val headerView = binding.navView.getHeaderView(0)
-        headerView?.findViewById<ImageView>(R.id.AvatarImageView)?.setOnClickListener {
+        headerView?.findViewById<ImageView>(R.id.dishImageView)?.setOnClickListener {
             loadPhotosFromGallery()
         }
     }

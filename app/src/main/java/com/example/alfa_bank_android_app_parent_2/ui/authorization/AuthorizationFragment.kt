@@ -38,6 +38,8 @@ class AuthorizationFragment : Fragment() {
 
     private fun initializeObserve() {
         viewModel.parent.observe(requireActivity()) {
+            binding.progressBar.visibility= View.GONE
+            binding.backgroundColorFrameLayout.visibility = View.GONE
             it?.let {
                 findNavController().navigate(
                     AuthorizationFragmentDirections.actionAuthorizationToAuthentication(
@@ -59,6 +61,8 @@ class AuthorizationFragment : Fragment() {
             else if (password == "")
                 Toast.makeText(requireActivity(), "Введите пароль", Toast.LENGTH_SHORT).show()
             else if (viewModel.isUserStartLog.value == false) {
+                binding.progressBar.visibility= View.VISIBLE
+                binding.backgroundColorFrameLayout.visibility = View.VISIBLE
                 binding.loginTextInputEditText.text?.clear()
                 binding.passwordTextInputEditText.text?.clear()
                 viewModel.authorization(login, password)

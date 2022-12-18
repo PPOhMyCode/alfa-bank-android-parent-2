@@ -17,11 +17,11 @@
     <string name="input_password">Введите пароль</string>
     <string name="input_pin">Введите pin-code</string>
     <string name="input_second_time_pin">Введите pin-code повторно</string>
-    <string name="logIn">Авторизоваться</string>
+    <string name="logIn">Войти</string>
     <string name="one">1</string>
     <string name="children">Мои дети</string>
     <string name="notification">Уведомления</string>
-    <string name="createNewNotification">Создать новое уведомления</string>
+    <string name="createNewNotification">Создать новое уведомление</string>
     <string name="timeNotification">Время для уведомлений</string>
     <string name="settings">Настройки</string>
     <string name="switchOnNotification">Включить уведомления</string>

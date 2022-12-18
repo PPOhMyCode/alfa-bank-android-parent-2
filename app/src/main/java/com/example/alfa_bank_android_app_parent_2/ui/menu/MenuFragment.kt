@@ -3,6 +3,8 @@ package com.example.alfa_bank_android_app_parent_2.ui.menu
 import android.content.ClipData
 import android.content.ClipboardManager
 import android.content.Context.CLIPBOARD_SERVICE
+import android.icu.number.NumberFormatter.with
+import android.icu.number.NumberRangeFormatter.with
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment
@@ -19,6 +21,7 @@ import com.example.alfa_bank_android_app_parent_2.domain.entiies.Dish
 import com.example.alfa_bank_android_app_parent_2.domain.entiies.TypeOfMeal
 import com.example.alfa_bank_android_app_parent_2.ui.adapters.DishListAdapter
 import com.google.android.material.bottomsheet.BottomSheetBehavior
+import com.squareup.picasso.Picasso
 import java.time.DayOfWeek
 import java.time.LocalDate
 import java.time.temporal.TemporalAdjusters
@@ -30,15 +33,13 @@ class MenuFragment : Fragment() {
     }
 
     private lateinit var dishListAdapter: DishListAdapter
-
     private var typeOfMeal = TypeOfMeal.BREAKFAST
     private var dayOfWeek = DayOfWeek.MONDAY
-    private var date: String? = null
     private var _binding: FragmentMenuBinding? = null
-
-
     private val binding: FragmentMenuBinding
         get() = _binding ?: throw RuntimeException("FragmentMenuBinding == null")
+
+    private lateinit var mode: String
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -51,13 +52,15 @@ class MenuFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        initializeMode()
         initializeRecyclerView()
         initializeMondayAndBreakfast()
         initializeDayClickListener()
         initializeTypeMealClickListener()
         initializeDays()
         loadDishes()
-        initializeBottomSheet()
+        initializeMakeOrder()
+        initializeButtonSheet()
     }
 
     override fun onStart() {
@@ -67,15 +70,45 @@ class MenuFragment : Fragment() {
         }
     }
 
-    private fun initializeBottomSheet() {
-        with(binding.dishMaterialCardView) {
-            BottomSheetBehavior.from(binding.dishMaterialCardView).state =
-                BottomSheetBehavior.STATE_HIDDEN
-
-
+    private fun initializeMode() {
+        mode = this.arguments?.getString(MODE) ?: CHOOSE_MENU_MODE
+        if (mode == CHOOSE_MENU_MODE) {
+            binding.makeOrderButton.visibility = View.GONE
         }
-
     }
+
+    private fun initializeButtonSheet() {
+        with(binding.dishMaterialCardView) {
+            BottomSheetBehavior.from(this).state =
+                BottomSheetBehavior.STATE_HIDDEN
+            BottomSheetBehavior.from(this)
+                .addBottomSheetCallback(object : BottomSheetBehavior.BottomSheetCallback() {
+                    override fun onStateChanged(bottomSheet: View, newState: Int) {
+                        when (newState) {
+                            BottomSheetBehavior.STATE_HIDDEN -> binding.backgroundColorFrameLayout.visibility =
+                                View.GONE
+                        }
+                    }
+
+                    override fun onSlide(bottomSheet: View, slideOffset: Float) {
+
+                    }
+
+                })
+        }
+    }
+
+    private fun initializeMakeOrder() {
+        binding.makeOrderButton.setOnClickListener {
+            viewModel.makeOrders(dayOfWeek, dayOfWeek.dayOfMonth().toString(), typeOfMeal)
+        }
+        viewModel.statusOrder.observe(requireActivity()) {
+            it?.let {
+                Toast.makeText(requireActivity(), it, Toast.LENGTH_SHORT).show()
+            }
+        }
+    }
+
 
     private fun initializeDays() {
         binding.dataMonday.text = DayOfWeek.MONDAY.dayOfMonth().toString()
@@ -94,7 +127,7 @@ class MenuFragment : Fragment() {
 
     private fun initializeRecyclerView() {
         val gridLayoutManager = GridLayoutManager(requireActivity(), 2)
-        dishListAdapter = DishListAdapter()
+        dishListAdapter = DishListAdapter(mode)
         dishListAdapter.onAddItemClick = {
             viewModel.addDish(dayOfWeek, typeOfMeal, it)
             dishListAdapter.dishCount = viewModel.getDishCount()
@@ -117,10 +150,13 @@ class MenuFragment : Fragment() {
 
     private fun openBottomSheetBehavior(dish: Dish) {
         with(binding.dishMaterialCardView) {
+            binding.backgroundColorFrameLayout.visibility = View.VISIBLE
             BottomSheetBehavior.from(this).state =
                 BottomSheetBehavior.STATE_EXPANDED
         }
         with(dish) {
+            Picasso.get().load("https://storage.yandexcloud.net/systemimg/${dish.id}.png")
+                .into(binding.dishImage)
             binding.dishTitleTextView.text = name
             binding.dishWeight.text = weight.toString()
             binding.caloriesTextView.text = calories.toString()
@@ -133,8 +169,9 @@ class MenuFragment : Fragment() {
 
 
     private fun loadDishes() {
-        viewModel.loadDishes(typeOfMeal, dayOfWeek.dayOfMonth().toString())
+        viewModel.loadDishes(typeOfMeal, dayOfWeek.dayOfMonth().toString(), mode)
         viewModel.dishes.observe(requireActivity()) {
+            binding.progressBar3.visibility = View.GONE
             val dishes = it
             if (dishes.isNullOrEmpty()) {
                 binding.recyclerView.visibility = View.INVISIBLE
@@ -159,6 +196,7 @@ class MenuFragment : Fragment() {
     }
 
     private fun initializeTypeMealClickListener() {
+        binding.progressBar3.visibility = View.VISIBLE
         binding.breakfastCardView.setOnClickListener {
             setDefaultBackgroundColorTypeMeal()
             binding.breakfastCardView.setCardBackgroundColor(resources.getColor(R.color.eafbe2))
@@ -200,6 +238,7 @@ class MenuFragment : Fragment() {
     }
 
     private fun initializeDayClickListener() {
+        binding.progressBar3.visibility = View.VISIBLE
         binding.mondayCardView.setOnClickListener {
             setDefaultBackgroundColorDays()
             binding.mondayCardView.setCardBackgroundColor(resources.getColor(R.color.eafbe2))
@@ -235,7 +274,23 @@ class MenuFragment : Fragment() {
     fun DayOfWeek.dayOfMonth(dateInWeek: LocalDate = LocalDate.now()): Int {
         val firstDateOfWeek = dateInWeek.with(TemporalAdjusters.previousOrSame(DayOfWeek.SUNDAY))
         val dateOfDayOfWeek = firstDateOfWeek.with(TemporalAdjusters.nextOrSame(this))
-        return dateOfDayOfWeek.dayOfMonth
+        return when (mode) {
+            CHOOSE_MENU_MODE -> dateOfDayOfWeek.dayOfMonth
+            LOAD_MENU_MODE -> dateOfDayOfWeek.dayOfMonth + 7
+            else -> throw Exception()
+        }
+    }
+
+    companion object {
+        fun newInstance(mode: String): MenuFragment = MenuFragment().apply {
+            arguments = Bundle().apply {
+                putString(MODE, mode)
+            }
+        }
+
+        private const val MODE = "MODE"
+        const val CHOOSE_MENU_MODE = "CHOOSE_MENU_MODE"
+        const val LOAD_MENU_MODE = "LOAD_MENU_MODE"
     }
 
 }

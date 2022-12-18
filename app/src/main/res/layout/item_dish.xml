@@ -23,7 +23,7 @@
             android:layout_height="match_parent">
 
             <ImageView
-                android:id="@+id/AvatarImageView"
+                android:id="@+id/dishImageView"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:background="@color/purple_500"

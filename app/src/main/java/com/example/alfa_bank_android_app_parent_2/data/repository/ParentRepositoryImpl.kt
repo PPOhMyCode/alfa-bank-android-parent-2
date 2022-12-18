@@ -2,16 +2,14 @@ package com.example.alfa_bank_android_app_parent_2.data.repository
 
 import android.content.Context
 import android.widget.Toast
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.Transformations
 import com.example.alfa_bank_android_app_parent_2.data.mapper.ParentMapper
 import com.example.alfa_bank_android_app_parent_2.data.network.ApiFactory
 import com.example.alfa_bank_android_app_parent_2.data.network.modeldto.AuthorizeBodyDto
+import com.example.alfa_bank_android_app_parent_2.data.network.modeldto.OrderDto
+import com.example.alfa_bank_android_app_parent_2.data.preferences.PreferencesChildImpl
 import com.example.alfa_bank_android_app_parent_2.data.preferences.PreferencesUserImpl
 import com.example.alfa_bank_android_app_parent_2.domain.ParentRepository
-import com.example.alfa_bank_android_app_parent_2.domain.entiies.Child
-import com.example.alfa_bank_android_app_parent_2.domain.entiies.Dish
-import com.example.alfa_bank_android_app_parent_2.domain.entiies.Parent
+import com.example.alfa_bank_android_app_parent_2.domain.entiies.*
 import retrofit2.HttpException
 import java.lang.Exception
 
@@ -19,9 +17,12 @@ import java.lang.Exception
 class ParentRepositoryImpl(var context: Context) : ParentRepository {
 
     private val preferencesUserImpl = PreferencesUserImpl(context)
-
+    private val preferencesChildImpl = PreferencesChildImpl(context)
     private val bdApiFactory = ApiFactory.getBdApiService()
-    private val userApiFactory = ApiFactory.getUserApiService()
+
+    private val userApiFactory by lazy {
+        ApiFactory.getUserApiService(preferencesUserImpl.user?.url ?: throw Exception())
+    }
 
     private val mapper = ParentMapper()
 
@@ -73,4 +74,49 @@ class ParentRepositoryImpl(var context: Context) : ParentRepository {
         } catch (e: Exception) {
             null
         }
+
+    override suspend fun loadDishesThisWeek(date: String, type: String): List<Dish>? = try {
+        val thisWeekDishContainer =
+            userApiFactory.loadSelectedDishes(date, preferencesChildImpl.idChild.toString(), type)
+        val result = mutableListOf<Dish>()
+        for (dishDto in thisWeekDishContainer) {
+            val descriptionDish = userApiFactory.loadDish(dishDto.DishId.toString())
+            result.add(
+                Dish(
+                    dishDto.DishId,
+                    descriptionDish.Name,
+                    descriptionDish.Description,
+                    descriptionDish.Weight.toFloat(),
+                    descriptionDish.Cost.toFloat(),
+                    descriptionDish.Calories.toFloat(),
+                    descriptionDish.Proteins.toFloat(),
+                    descriptionDish.Fats.toFloat(),
+                    descriptionDish.Carbohydrates.toFloat()
+                )
+            )
+        }
+        result
+    } catch (e: HttpException) {
+        null
+    }
+
+    override suspend fun makeOrder(
+        data: String,
+        childrenId: Int,
+        typeMeal: Int,
+        dishId: Int
+    ): String = try {
+        userApiFactory.makeOrder(OrderDto(childrenId, data, dishId, typeMeal))
+        "Ок"
+    } catch (e: HttpException) {
+        "Ошибка"
+    }
+
+    override suspend fun loadHistoryDish(idChild: Int): List<HistoryDish>? = try {
+        userApiFactory.loadHistoryDishes(idChild.toString()).map {
+            mapper.mapHistoryDishDtoToHistoryDish(it)
+        }
+    } catch (e: HttpException) {
+        null
+    }
 }

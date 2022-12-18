@@ -1,6 +1,7 @@
 package com.example.alfa_bank_android_app_parent_2.ui.adapters
 
 import android.annotation.SuppressLint
+import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -11,8 +12,10 @@ import androidx.cardview.widget.CardView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.alfa_bank_android_app_parent_2.R
 import com.example.alfa_bank_android_app_parent_2.domain.entiies.Dish
+import com.example.alfa_bank_android_app_parent_2.ui.menu.MenuFragment
+import com.squareup.picasso.Picasso
 
-class DishListAdapter() : RecyclerView.Adapter<DishListAdapter.ItemHolder>() {
+class DishListAdapter(var mode:String) : RecyclerView.Adapter<DishListAdapter.ItemHolder>() {
     var dishes: List<Dish> = listOf()
     var dishCount: Map<Int, Int> = mapOf()
     var onAddItemClick: ((Dish) -> Unit)? = null
@@ -26,9 +29,12 @@ class DishListAdapter() : RecyclerView.Adapter<DishListAdapter.ItemHolder>() {
 
     @SuppressLint("SetTextI18n")
     override fun onBindViewHolder(holder: ItemHolder, position: Int) {
+
         with(dishes[position]) {
             holder.cost.text = "${cost.toInt()} р"
             holder.nameDish.text = name
+            Picasso.get().load("https://storage.yandexcloud.net/systemimg/${id}.png").into(holder.dishImage)
+            //holder.dishImage
         }
         val count =  dishCount[dishes[position].id] ?: 0
         if(count>0) {
@@ -76,6 +82,11 @@ class DishListAdapter() : RecyclerView.Adapter<DishListAdapter.ItemHolder>() {
             }
             holder.count.text="${dishCount[dishes[position].id]} шт"
         }
+
+        if(mode == MenuFragment.CHOOSE_MENU_MODE){
+            holder.countAndCostInformation.visibility = View.GONE
+            holder.addDish.visibility = View.GONE
+        }
     }
 
     override fun getItemCount(): Int {
@@ -89,7 +100,7 @@ class DishListAdapter() : RecyclerView.Adapter<DishListAdapter.ItemHolder>() {
         var deleteDish: ImageButton = itemView.findViewById(R.id.deleteDish)
         var count: TextView = itemView.findViewById(R.id.count)
         var nameDish: TextView = itemView.findViewById(R.id.nameDishTextView)
-        var dishImage: ImageView = itemView.findViewById(R.id.AvatarImageView)
+        var dishImage: ImageView = itemView.findViewById(R.id.dishImageView)
         var countAndCostInformation: CardView = itemView.findViewById(R.id.countAndCostInformation)
     }
 }

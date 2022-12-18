@@ -34,18 +34,18 @@ class NutritionHistoryFragment : Fragment() {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         viewModel = ViewModelProvider(this)[NutritionHistoryViewModel::class.java]
-        val dates = listOf("28 сентября", "29 сентября")
-        val historyDish = listOf(
-            HistoryDish("Каша овсяная", "150 г", "-85 р"),
-            HistoryDish("Чай черный", "150 г", "-85 р"),
-            HistoryDish("Творожная запеканка", "150 г", "-85 р"),
-            HistoryDish("Компот из сухофруктов", "100г", "-80 р")
-        )
+        viewModel.loadData()
+        viewModel.historyDish.observe(requireActivity()) {
+            binding.progressBar4.visibility = View.GONE
+            it?.let { it1 ->
+                initializeRecyclerView(it1)
+            }
+        }
+    }
 
+    private fun initializeRecyclerView(items: List<Any>) {
         val historyListAdapter = HistoryListAdapter(
-            dates,
-            historyDish,
-            listOf(Pair(1, 0), Pair(0, 0), Pair(0, 1), Pair(1, 1), Pair(0, 2), Pair(0, 3))
+            items
         )
         with(binding.recyclerView) {
             adapter = historyListAdapter
@@ -53,7 +53,6 @@ class NutritionHistoryFragment : Fragment() {
                 LinearLayoutManager(requireActivity(), LinearLayoutManager.VERTICAL, false)
             false
         }
-        // TODO: Use the ViewModel
     }
 
 }

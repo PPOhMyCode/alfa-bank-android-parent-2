@@ -37,7 +37,9 @@ class ChildrenFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
         viewModel.children.observe(requireActivity()) {
+            binding.progressBar2.visibility =View.GONE
             it?.let { it1 -> initializeRecyclerView(it1) }
         }
     }

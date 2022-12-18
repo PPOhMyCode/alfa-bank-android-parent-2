@@ -4,6 +4,7 @@ import android.annotation.SuppressLint
 import android.app.AlertDialog
 import android.content.Intent
 import android.os.Bundle
+import android.view.View
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.GravityCompat
@@ -11,6 +12,7 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 
 import com.example.alfa_bank_android_app_parent_2.R
+import com.example.alfa_bank_android_app_parent_2.data.preferences.PreferencesChildImpl
 import com.example.alfa_bank_android_app_parent_2.databinding.ActivityChildBinding
 import com.example.alfa_bank_android_app_parent_2.domain.entiies.Child
 import com.example.alfa_bank_android_app_parent_2.ui.menu.MenuFragment
@@ -27,6 +29,7 @@ import org.w3c.dom.Text
 class ChildActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityChildBinding
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -56,15 +59,26 @@ class ChildActivity : AppCompatActivity() {
         binding.navView.setNavigationItemSelectedListener {
             when (it.itemId) {
                 R.id.this_week -> {
-                    goToFragment(MenuFragment())
+                    binding.appBarMain.copyImageButton.visibility=View.VISIBLE
+                    binding.appBarMain.secondTextView.visibility = View.VISIBLE
+                    binding.appBarMain.firstTextView.text="Меню"
+                    binding.appBarMain.secondTextView.text="Питание на неделю"
+                    goToFragment(MenuFragment.newInstance(MenuFragment.CHOOSE_MENU_MODE))
                     true
                 }
                 R.id.next_week -> {
-                    goToFragment(MenuFragment())
+                    binding.appBarMain.copyImageButton.visibility=View.VISIBLE
+                    binding.appBarMain.secondTextView.visibility = View.VISIBLE
+                    binding.appBarMain.firstTextView.text="Меню"
+                    binding.appBarMain.secondTextView.text="Закакз питания на неделю"
+                    goToFragment(MenuFragment.newInstance(MenuFragment.LOAD_MENU_MODE))
                     true
 
                 }
                 R.id.history -> {
+                    binding.appBarMain.copyImageButton.visibility=View.GONE
+                    binding.appBarMain.secondTextView.visibility = View.GONE
+                    binding.appBarMain.firstTextView.text="ИСТОРИЯ ПИТАНИЯ"
                     goToFragment(NutritionHistoryFragment())
                     true
                 }
@@ -121,6 +135,7 @@ class ChildActivity : AppCompatActivity() {
     private fun initializeDrawerLayout() {
         val child = intent.extras?.get(CHILD) as Child?
         child?.let {
+            PreferencesChildImpl(this).idChild = child.id
             with(binding.navView.getHeaderView(0)) {
                 findViewById<TextView>(R.id.name).text = "${it.firstName} ${it.lastName}"
                 findViewById<TextView>(R.id.schoolClass).text = "${it.schoolClass} А класс"

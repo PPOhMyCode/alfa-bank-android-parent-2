@@ -11,7 +11,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/fbfff9"
-        android:layout_marginTop="16dp">
+        android:layout_marginTop="8dp">
 
         <TextView
             android:id="@+id/nameTextViewDish"
@@ -61,7 +61,7 @@
                 android:layout_height="match_parent">
 
                 <ImageView
-                    android:id="@+id/AvatarImageView"
+                    android:id="@+id/dishImageView"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:background="@color/purple_500"

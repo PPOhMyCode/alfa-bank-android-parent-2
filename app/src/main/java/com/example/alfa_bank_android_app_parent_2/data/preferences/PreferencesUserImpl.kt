@@ -42,7 +42,8 @@ class PreferencesUserImpl(context: Context) : PreferencesUser() {
                 val firstName = preferencesAuthorization.getString(FIRST_NAME_USER, "")?:""
                 val lastName = preferencesAuthorization.getString(LAST_NAME, "")?:""
                 val idUser = preferencesAuthorization.getInt(ID_USER, 0)
-                Parent(firstName, lastName, idUser)
+                val url =preferencesAuthorization.getString(URL,"")?:""
+                Parent(firstName, lastName, idUser,url)
             } else {
                 null
             }
@@ -55,6 +56,7 @@ class PreferencesUserImpl(context: Context) : PreferencesUser() {
                 preferencesAuthorization.edit().putString(LAST_NAME, it.lastName).apply()
                 preferencesAuthorization.edit().putInt(ID_USER, it.id).apply()
                 preferencesAuthorization.edit().putBoolean(IS_USER_LOGGED, true).apply()
+                preferencesAuthorization.edit().putString(URL, it.url).apply()
             }
 
         }
@@ -81,6 +83,7 @@ class PreferencesUserImpl(context: Context) : PreferencesUser() {
         const val FIRST_NAME_USER = "FIRST_NAME_USER"
         const val LAST_NAME_USER = "LAST_NAME_USER"
         const val ID_USER = "ID_USER"
+        const val URL= "URL"
         const val SHARED_PREFERENCES_AUTHORIZATION = "SHARED_PREFERENCES_AUTHORIZATION"
         const val SHARED_PREFERENCES_CHILD = "SHARED_PREFERENCES_CHILD"
         const val IS_CHILD_WAS_ADDED = "IS_CHILD_WAS_ADDED"

@@ -13,9 +13,9 @@ data class ChildDto(
     @Expose
     val FirstName: String,
 
-    @SerializedName("GradeId")
+    @SerializedName("Grade")
     @Expose
-    val GradeId: Int,
+    val GradeId: String,
 
     @SerializedName("ParentID")
     @Expose

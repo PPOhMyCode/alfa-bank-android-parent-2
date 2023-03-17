@@ -27,7 +27,7 @@ class ChildListAdapter(var children: List<Child>) :
     override fun onBindViewHolder(holder: ItemHolder, position: Int) {
         with(children[position]) {
             holder.name.text = "$firstName $lastName"
-            holder.schoolClass.text = "$schoolClass А класс"
+            holder.schoolClass.text = schoolClass
             holder.school.text = school
             holder.account.text = ("$account р")
         }

@@ -36,18 +36,19 @@ class MenuViewModel(application: Application) : AndroidViewModel(application) {
 
 
     fun loadDishes(typeOfMeal: TypeOfMeal, dayOfMonth: String, mode: String) {
+
         viewModelScope.launch {
             when (mode) {
                 MenuFragment.LOAD_MENU_MODE -> {
                     dishes.value =
                         loadDishesUseCase.invoke(
-                            "2022-12-$dayOfMonth",
+                            "2023-03-$dayOfMonth",
                             typeOfMeal.value.toString()
                         )
                 }
                 MenuFragment.CHOOSE_MENU_MODE -> {
                     dishes.value = loadDishesThisWeekUseCase.invoke(
-                        "2022-12-$dayOfMonth",
+                        "2023-03-$dayOfMonth",
                         typeOfMeal.value.toString()
                     )
                 }
@@ -63,7 +64,7 @@ class MenuViewModel(application: Application) : AndroidViewModel(application) {
                 for (dishCount in it) {
                     for (count in 0 until dishCount.value) {
                         makeOrderUseCase.invoke(
-                            "2022-12-$dayOfMonth",
+                            "2023-03-$dayOfMonth",
                             childId,
                             typeOfMeal.value,
                             dishCount.key.id

@@ -1,6 +1,5 @@
 package com.example.alfa_bank_android_app_parent_2.data.network
 
-import com.example.alfa_bank_android_app_parent_2.data.preferences.PreferencesUserImpl
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit

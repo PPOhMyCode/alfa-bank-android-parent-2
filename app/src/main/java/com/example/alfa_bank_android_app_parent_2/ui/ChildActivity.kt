@@ -138,7 +138,7 @@ class ChildActivity : AppCompatActivity() {
             PreferencesChildImpl(this).idChild = child.id
             with(binding.navView.getHeaderView(0)) {
                 findViewById<TextView>(R.id.name).text = "${it.firstName} ${it.lastName}"
-                findViewById<TextView>(R.id.schoolClass).text = "${it.schoolClass} А класс"
+                findViewById<TextView>(R.id.schoolClass).text = it.schoolClass
                 findViewById<TextView>(R.id.isEat).setOnClickListener {
                     val datePicker =
                         MaterialDatePicker.Builder.dateRangePicker()

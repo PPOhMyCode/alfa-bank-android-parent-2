@@ -18,7 +18,7 @@ class ParentMapper {
             Child(ChildrenId,
                 FirstName,
                 SecondName,
-                GradeId.toString(),
+                GradeId,
                 "",
                 0.0F
             )

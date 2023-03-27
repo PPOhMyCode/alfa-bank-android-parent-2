@@ -23,7 +23,7 @@
             android:icon="@drawable/ic_book_saved"
             android:title="История питания" />
         <item
-            android:id="@+id/nav_gallery"
+            android:id="@+id/nav_receipts"
             android:icon="@drawable/ic_coin"
             android:title="Все квитанции" />
         <item

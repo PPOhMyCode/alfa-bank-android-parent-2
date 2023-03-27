@@ -15,9 +15,11 @@ import com.example.alfa_bank_android_app_parent_2.R
 import com.example.alfa_bank_android_app_parent_2.data.preferences.PreferencesChildImpl
 import com.example.alfa_bank_android_app_parent_2.databinding.ActivityChildBinding
 import com.example.alfa_bank_android_app_parent_2.domain.entiies.Child
+import com.example.alfa_bank_android_app_parent_2.domain.entiies.ReceiptsItem
 import com.example.alfa_bank_android_app_parent_2.ui.menu.MenuFragment
 
 import com.example.alfa_bank_android_app_parent_2.ui.history.NutritionHistoryFragment
+import com.example.alfa_bank_android_app_parent_2.ui.receipts.ReceiptsFragment
 import com.google.android.material.datepicker.MaterialDatePicker
 
 
@@ -30,6 +32,7 @@ class ChildActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityChildBinding
 
+    private var type:Boolean = true
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -59,27 +62,34 @@ class ChildActivity : AppCompatActivity() {
         binding.navView.setNavigationItemSelectedListener {
             when (it.itemId) {
                 R.id.this_week -> {
-                    binding.appBarMain.copyImageButton.visibility=View.VISIBLE
+                    binding.appBarMain.copyImageButton.visibility = View.VISIBLE
                     binding.appBarMain.secondTextView.visibility = View.VISIBLE
-                    binding.appBarMain.firstTextView.text="Меню"
-                    binding.appBarMain.secondTextView.text="Питание на неделю"
+                    binding.appBarMain.firstTextView.text = "Меню"
+                    binding.appBarMain.secondTextView.text = "Питание на неделю"
                     goToFragment(MenuFragment.newInstance(MenuFragment.CHOOSE_MENU_MODE))
                     true
                 }
                 R.id.next_week -> {
-                    binding.appBarMain.copyImageButton.visibility=View.VISIBLE
+                    binding.appBarMain.copyImageButton.visibility = View.VISIBLE
                     binding.appBarMain.secondTextView.visibility = View.VISIBLE
-                    binding.appBarMain.firstTextView.text="Меню"
-                    binding.appBarMain.secondTextView.text="Закакз питания на неделю"
+                    binding.appBarMain.firstTextView.text = "Меню"
+                    binding.appBarMain.secondTextView.text = "Закакз питания на неделю"
                     goToFragment(MenuFragment.newInstance(MenuFragment.LOAD_MENU_MODE))
                     true
 
                 }
                 R.id.history -> {
-                    binding.appBarMain.copyImageButton.visibility=View.GONE
+                    binding.appBarMain.copyImageButton.visibility = View.GONE
                     binding.appBarMain.secondTextView.visibility = View.GONE
-                    binding.appBarMain.firstTextView.text="ИСТОРИЯ ПИТАНИЯ"
+                    binding.appBarMain.firstTextView.text = "История питания"
                     goToFragment(NutritionHistoryFragment())
+                    true
+                }
+                R.id.nav_receipts -> {
+                    binding.appBarMain.copyImageButton.visibility = View.GONE
+                    binding.appBarMain.secondTextView.visibility = View.GONE
+                    binding.appBarMain.firstTextView.text = "Квитанции"
+                    goToFragment(ReceiptsFragment())
                     true
                 }
                 R.id.exit -> {
@@ -113,6 +123,16 @@ class ChildActivity : AppCompatActivity() {
         }
     }
 
+    fun closeDrawer(receiptsItem:ReceiptsItem) {
+        type = false
+        binding.appBarMain.firstTextView.text = receiptsItem.year+" "+receiptsItem.month
+        binding.appBarMain.buttonNav.setImageResource(R.drawable.ic_baseline_navigate_before_24)
+        lifecycleScope.launch(context = Dispatchers.Main) {
+            binding.drawerLayout.closeDrawer(GravityCompat.START)
+        }
+    }
+
+
     private fun confirmExit(funAfterConfirm: () -> Unit) {
         val builder = AlertDialog.Builder(this)
         builder.setTitle("School food")
@@ -127,7 +147,16 @@ class ChildActivity : AppCompatActivity() {
 
     private fun initializeButtonNav() {
         binding.appBarMain.buttonNav.setOnClickListener {
-            binding.drawerLayout.openDrawer(GravityCompat.START)
+            if(!type) {
+                type = true
+                binding.appBarMain.copyImageButton.visibility = View.GONE
+                binding.appBarMain.secondTextView.visibility = View.GONE
+                binding.appBarMain.firstTextView.text = "Квитанции"
+                binding.appBarMain.buttonNav.setImageResource(R.drawable.ic_list)
+                goToFragment(ReceiptsFragment())
+            }else {
+                binding.drawerLayout.openDrawer(GravityCompat.START)
+            }
         }
     }
 
@@ -143,10 +172,12 @@ class ChildActivity : AppCompatActivity() {
                     val datePicker =
                         MaterialDatePicker.Builder.dateRangePicker()
                             .setTitleText("Дни, когда ребенк не будет питаться")
-                            .setSelection(androidx.core.util.Pair(
-                                MaterialDatePicker.thisMonthInUtcMilliseconds(),
-                                MaterialDatePicker.todayInUtcMilliseconds()
-                            ))
+                            .setSelection(
+                                androidx.core.util.Pair(
+                                    MaterialDatePicker.thisMonthInUtcMilliseconds(),
+                                    MaterialDatePicker.todayInUtcMilliseconds()
+                                )
+                            )
                             .build()
 
                     datePicker.show(supportFragmentManager, "Tag")

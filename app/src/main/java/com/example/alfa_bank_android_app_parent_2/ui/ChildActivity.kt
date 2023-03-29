@@ -20,6 +20,7 @@ import com.example.alfa_bank_android_app_parent_2.ui.menu.MenuFragment
 
 import com.example.alfa_bank_android_app_parent_2.ui.history.NutritionHistoryFragment
 import com.example.alfa_bank_android_app_parent_2.ui.receipts.ReceiptsFragment
+import com.example.alfa_bank_android_app_parent_2.ui.sheduler.SchedulerFragment
 import com.google.android.material.datepicker.MaterialDatePicker
 
 
@@ -61,6 +62,14 @@ class ChildActivity : AppCompatActivity() {
     private fun initializeNavigation() {
         binding.navView.setNavigationItemSelectedListener {
             when (it.itemId) {
+                R.id.timetable -> {
+                    binding.appBarMain.copyImageButton.visibility = View.GONE
+                    binding.appBarMain.secondTextView.visibility = View.GONE
+                    binding.appBarMain.firstTextView.text = "Расписание"
+                    goToFragment(SchedulerFragment.newInstance())
+                    true
+                }
+
                 R.id.this_week -> {
                     binding.appBarMain.copyImageButton.visibility = View.VISIBLE
                     binding.appBarMain.secondTextView.visibility = View.VISIBLE

@@ -20,4 +20,9 @@
         android:name="com.example.alfa_bank_android_app_parent_2.ui.receipt.ReceiptFragment"
         android:label="fragment_receipt"
         tools:layout="@layout/fragment_receipt" />
+    <fragment
+        android:id="@+id/schedulerFragment"
+        android:name="com.example.alfa_bank_android_app_parent_2.ui.sheduler.SchedulerFragment"
+        android:label="fragment_scheduler"
+        tools:layout="@layout/fragment_scheduler" />
 </navigation>

@@ -141,6 +141,14 @@ class ChildActivity : AppCompatActivity() {
         }
     }
 
+    fun closeAppBarMain(){
+        binding.appBarMain.topAppBar.visibility = View.GONE
+    }
+
+    fun openAppBarMain(){
+        binding.appBarMain.topAppBar.visibility = View.VISIBLE
+    }
+
 
     private fun confirmExit(funAfterConfirm: () -> Unit) {
         val builder = AlertDialog.Builder(this)

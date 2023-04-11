@@ -3,11 +3,12 @@ package com.example.alfa_bank_android_app_parent_2.ui.receipts
 
 import android.annotation.SuppressLint
 import android.os.Bundle
+import android.text.Editable
+import android.text.TextWatcher
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.appcompat.widget.SearchView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -15,6 +16,7 @@ import com.example.alfa_bank_android_app_parent_2.R
 import com.example.alfa_bank_android_app_parent_2.databinding.FragmentReceiptsBinding
 import com.example.alfa_bank_android_app_parent_2.domain.entiies.ReceiptsItem
 import com.example.alfa_bank_android_app_parent_2.ui.ChildActivity
+import com.example.alfa_bank_android_app_parent_2.ui.adapters.DateAdapter
 import com.example.alfa_bank_android_app_parent_2.ui.adapters.ReceiptsAdapter
 import com.example.alfa_bank_android_app_parent_2.ui.receipt.ReceiptFragment
 import com.google.android.material.search.SearchView.TransitionState.*
@@ -23,6 +25,7 @@ import com.google.android.material.search.SearchView.TransitionState.*
 class ReceiptsFragment : Fragment() {
 
     private lateinit var binding: FragmentReceiptsBinding
+    private lateinit var date:DateAdapter
 
     private val viewModel by lazy {
         ViewModelProvider(this)[ReceiptsViewModel::class.java]
@@ -64,36 +67,57 @@ class ReceiptsFragment : Fragment() {
     @SuppressLint("ClickableViewAccessibility")
     private fun initSearch() {
         with(binding) {
-            //(activity as ChildActivity).closeAppBarMain()
-            //Log.d("adf", "ads2")
-            //searchBar.centerView
 
-            searchBar.setOnClickListener {
-                //(activity as ChildActivity).closeAppBarMain()
+            date = DateAdapter(listOf("2023","2022","2021","2022"))
+
+            date.onItemClickListener = {
+                Log.d("aasdsd",it)
+                searchView.editText.setText(it)
+            }
+
+            with(resultRecyclerView){
+                adapter =date
+                false
+                layoutManager = LinearLayoutManager(requireActivity(),LinearLayoutManager.VERTICAL,false)
             }
 
 
 
-            searchBar.textView.setOnEditorActionListener { v, actionId, event ->
-                //(activity as ChildActivity).closeAppBarMain()
-                true
-            }
 
-            appBarLayout.setOnClickListener {
-                // (activity as ChildActivity).closeAppBarMain()
-            }
+            //!!!!
 
-            searchView.editText.setOnTouchListener { v, event ->
-                //(activity as ChildActivity).closeAppBarMain()
-                Log.d("adf", "13ads1232")
-                true
-            }
+            searchView.editText.addTextChangedListener(
+                object : TextWatcher {
+                    override fun beforeTextChanged(
+                        s: CharSequence,
+                        start: Int,
+                        count: Int,
+                        after: Int
+                    ) {
+                        //searchView.hide()
+                        //searchView.setVisible(false)
+                        Log.d("texasdt",s.toString())
+                    }
 
-            searchView.editText.setOnEditorActionListener { v, actionId, event ->
-                Log.d("adf", "ads1232")
-                //(activity as ChildActivity).closeAppBarMain()
-                true
-            }
+                    override fun onTextChanged(
+                        s: CharSequence,
+                        start: Int,
+                        before: Int,
+                        count: Int
+                    ) {
+                        //searchView.hide()
+                        Log.d("texasdt",s.toString())
+                    }
+
+                    override fun afterTextChanged(s: Editable) {
+                        //searchView.hide()
+                        Log.d("texasdt","qwe3")
+                    }
+                })
+
+            //!!!!
+
+
 
 
             searchView.addTransitionListener { searchView, previousState, newState ->
@@ -109,7 +133,7 @@ class ReceiptsFragment : Fragment() {
             }
 
 
-
+            searchView.hide()
 
 
             searchView.inflateMenu(R.menu.main)
@@ -118,7 +142,7 @@ class ReceiptsFragment : Fragment() {
             searchView
                 .editText
                 .setOnEditorActionListener { v, actionId, event ->
-                    //Log.d("adf", "ads3")
+                    Log.d("adf", "ads3")
                     //(activity as ChildActivity).closeAppBarMain()
                     //(activity as ChildActivity).openAppBarMain()
                     searchBar.text = searchView.text
@@ -127,13 +151,15 @@ class ReceiptsFragment : Fragment() {
                 }
 
             searchView.editText.setOnTouchListener { v, event ->
-                // (activity as ChildActivity).closeAppBarMain()
+                Log.d("adf", "das")
+                //(activity as ChildActivity).closeAppBarMain()
                 true
             }
 
 
 
             searchView.editText.setOnClickListener {
+                Log.d("adf", "das")
                 // Log.d("adf", "ads2")
                 //(activity as ChildActivity).closeAppBarMain()
             }

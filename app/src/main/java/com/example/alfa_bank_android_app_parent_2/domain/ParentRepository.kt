@@ -25,4 +25,6 @@ interface ParentRepository {
     ): String
 
     suspend fun loadHistoryDish(idChild:Int):List<HistoryDish>?
+
+    suspend fun loadSheduler( ):List<String>?
 }

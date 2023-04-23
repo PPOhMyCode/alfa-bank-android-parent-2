@@ -27,10 +27,13 @@ interface UserApiService {
     suspend fun loadSelectedDishes(
         @Path("date") date: String,
         @Path("childrenId") childrenId: String,
-        @Path("type") type:String
+        @Path("type") type: String
     ): ThisWeekDishContainer
 
     @POST("/orders")
     suspend fun makeOrder(@Body orderBody: OrderDto)
+
+    @GET("/timings/grade/{classC}")
+    suspend fun getSheduler(@Path("date") classC: String): ShedulerDtoContainer
 
 }

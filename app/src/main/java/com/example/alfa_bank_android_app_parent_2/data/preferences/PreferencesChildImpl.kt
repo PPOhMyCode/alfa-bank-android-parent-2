@@ -15,8 +15,13 @@ class PreferencesChildImpl(context: Context) : PreferencesChild() {
         get() = preferencesCopy.getInt(ID, 0)
         set(value) = preferencesCopy.edit().putInt(ID, value).apply()
 
+    override var schoolClass: String
+        get() = preferencesCopy.getString(CLASS, "5Б") ?: "5Б"
+        set(value) = preferencesCopy.edit().putString(CLASS, value).apply()
+
     companion object {
         private val SHARED_PREFERENCES_CHILD = "SHARED_PREFERENCES_CHILD"
         private val ID = "ID"
+        private val CLASS = "CLASS"
     }
 }

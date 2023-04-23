@@ -4,4 +4,6 @@ abstract class PreferencesChild {
 
     abstract var idChild: Int
 
+    abstract var schoolClass:String
+
 }

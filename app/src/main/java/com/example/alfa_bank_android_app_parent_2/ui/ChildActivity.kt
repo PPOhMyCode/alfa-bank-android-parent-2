@@ -4,6 +4,7 @@ import android.annotation.SuppressLint
 import android.app.AlertDialog
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
@@ -182,6 +183,9 @@ class ChildActivity : AppCompatActivity() {
         val child = intent.extras?.get(CHILD) as Child?
         child?.let {
             PreferencesChildImpl(this).idChild = child.id
+            Log.d("asdasd",child.schoolClass)
+            PreferencesChildImpl(this).schoolClass = child.schoolClass
+
             with(binding.navView.getHeaderView(0)) {
                 findViewById<TextView>(R.id.name).text = "${it.firstName} ${it.lastName}"
                 findViewById<TextView>(R.id.schoolClass).text = it.schoolClass

@@ -119,4 +119,14 @@ class ParentRepositoryImpl(var context: Context) : ParentRepository {
     } catch (e: HttpException) {
         null
     }
+
+    override suspend fun loadSheduler( ): List<String>?  = try{
+        userApiFactory.getSheduler("5Б").map {
+            it.Time
+
+            //TODO("Добавить тип блюда")
+        }
+    } catch (e:HttpException){
+        null
+    }
 }

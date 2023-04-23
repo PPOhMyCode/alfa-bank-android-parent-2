@@ -20,6 +20,7 @@
             android:id="@+id/receiptsRecyclerView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginHorizontal="24dp"
             app:layout_behavior="@string/appbar_scrolling_view_behavior" />
 
 

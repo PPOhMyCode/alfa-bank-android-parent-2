@@ -22,7 +22,8 @@
         android:layout_height="match_parent"
         android:background="@color/purple_700"
         android:orientation="vertical"
-
+        app:strokeColor="@color/Transperent"
+        app:strokeWidth="0dp"
         app:behavior_hideable="true"
         app:behavior_peekHeight="0dp"
         app:cardCornerRadius="0dp"

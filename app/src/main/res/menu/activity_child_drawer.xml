@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    tools:showIn="navigation_view">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:showIn="navigation_view"
+    >
 
     <group
         android:id="@+id/first"
@@ -26,10 +28,6 @@
             android:id="@+id/nav_receipts"
             android:icon="@drawable/ic_coin"
             android:title="Все квитанции" />
-        <item
-            android:id="@+id/settings"
-            android:icon="@drawable/ic_setting_2"
-            android:title="@string/settings" />
     </group>
     <group
         android:id="@+id/second"

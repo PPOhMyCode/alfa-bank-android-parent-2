@@ -5,12 +5,13 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
+    android:background="@color/fbfff9"
     tools:context=".ui.menu.MenuFragment">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:backgroundTint="@color/fbfff9">
+        android:background="@color/fbfff9" >
 
         <com.google.android.material.card.MaterialCardView
             android:id="@+id/mondayCardView"
@@ -450,6 +451,7 @@
             app:cardBackgroundColor="@color/fbfff9"
             app:cardCornerRadius="40dp"
             app:cardElevation="4dp"
+            app:strokeWidth="0dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent">
@@ -463,7 +465,7 @@
                     android:id="@+id/dishImage"
                     android:layout_width="match_parent"
                     android:layout_height="200dp"
-                    android:background="@color/purple_500"
+                    android:background="@color/fbfff9"
                     android:src="@drawable/ic_launcher_foreground" />
 
                 <LinearLayout
@@ -607,6 +609,7 @@
             app:cardBackgroundColor="@color/fbfff9"
             app:cardCornerRadius="0dp"
             app:cardElevation="4dp"
+            app:strokeWidth="0dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent" />

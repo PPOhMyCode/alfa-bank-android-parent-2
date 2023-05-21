@@ -1,10 +1,7 @@
 package com.example.alfa_bank_android_app_parent_2.domain
 
 import androidx.lifecycle.LiveData
-import com.example.alfa_bank_android_app_parent_2.domain.entiies.Child
-import com.example.alfa_bank_android_app_parent_2.domain.entiies.Dish
-import com.example.alfa_bank_android_app_parent_2.domain.entiies.HistoryDish
-import com.example.alfa_bank_android_app_parent_2.domain.entiies.Parent
+import com.example.alfa_bank_android_app_parent_2.domain.entiies.*
 import retrofit2.http.Path
 
 interface ParentRepository {
@@ -26,5 +23,7 @@ interface ParentRepository {
 
     suspend fun loadHistoryDish(idChild:Int):List<HistoryDish>?
 
-    suspend fun loadSheduler( ):List<String>?
+    suspend fun loadSheduler(childClass:String ):List<ScheduleItem>?
+
+
 }

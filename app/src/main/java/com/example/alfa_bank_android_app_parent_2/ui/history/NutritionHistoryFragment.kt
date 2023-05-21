@@ -15,9 +15,7 @@ import com.example.alfa_bank_android_app_parent_2.ui.adapters.HistoryListAdapter
 
 class NutritionHistoryFragment : Fragment() {
 
-    companion object {
-        fun newInstance() = NutritionHistoryFragment()
-    }
+
 
     private lateinit var viewModel: NutritionHistoryViewModel
 
@@ -53,6 +51,10 @@ class NutritionHistoryFragment : Fragment() {
                 LinearLayoutManager(requireActivity(), LinearLayoutManager.VERTICAL, false)
             false
         }
+    }
+
+    companion object {
+        fun newInstance() = NutritionHistoryFragment()
     }
 
 }

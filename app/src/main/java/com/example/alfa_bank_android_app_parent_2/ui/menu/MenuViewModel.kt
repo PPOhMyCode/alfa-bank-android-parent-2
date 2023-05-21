@@ -15,7 +15,9 @@ import com.example.alfa_bank_android_app_parent_2.domain.ParentRepository
 import com.example.alfa_bank_android_app_parent_2.domain.entiies.Dish
 import com.example.alfa_bank_android_app_parent_2.domain.entiies.TypeOfMeal
 import kotlinx.coroutines.launch
+import java.text.SimpleDateFormat
 import java.time.DayOfWeek
+import java.util.*
 
 class MenuViewModel(application: Application) : AndroidViewModel(application) {
 
@@ -37,18 +39,25 @@ class MenuViewModel(application: Application) : AndroidViewModel(application) {
 
     fun loadDishes(typeOfMeal: TypeOfMeal, dayOfMonth: String, mode: String) {
 
+        val sdf = SimpleDateFormat("dd/M/yyyy hh:mm:ss")
+        val currentDate = sdf.format(Date()).split("/")
+        val year = currentDate[2].split(" ")[0]
+        val month = currentDate[1]
+
+
+
         viewModelScope.launch {
             when (mode) {
                 MenuFragment.LOAD_MENU_MODE -> {
                     dishes.value =
                         loadDishesUseCase.invoke(
-                            "2023-03-$dayOfMonth",
+                            "$year-0$month-$dayOfMonth",
                             typeOfMeal.value.toString()
                         )
                 }
                 MenuFragment.CHOOSE_MENU_MODE -> {
                     dishes.value = loadDishesThisWeekUseCase.invoke(
-                        "2023-03-$dayOfMonth",
+                        "$year-0$month-$dayOfMonth",
                         typeOfMeal.value.toString()
                     )
                 }

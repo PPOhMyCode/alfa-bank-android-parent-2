@@ -11,11 +11,13 @@ import android.os.Bundle
 import android.os.Environment
 import android.provider.MediaStore
 import android.widget.ImageView
+import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.GravityCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import com.example.alfa_bank_android_app_parent_2.R
+import com.example.alfa_bank_android_app_parent_2.data.preferences.PreferencesUserImpl
 import com.example.alfa_bank_android_app_parent_2.databinding.ActivityParentBinding
 import com.example.alfa_bank_android_app_parent_2.ui.children.ChildrenFragment
 import com.example.alfa_bank_android_app_parent_2.ui.notification.NotificationFragment
@@ -39,6 +41,7 @@ class ParentActivity : AppCompatActivity() {
         initializeButtonNav()
         filePhoto = getPhotoFile("photo.jpg")
         initializeAvatarClickListener()
+        initializeName()
     }
 
     override fun onBackPressed() {
@@ -58,10 +61,10 @@ class ParentActivity : AppCompatActivity() {
             super.onActivityResult(requestCode, resultCode, data)
             return
         }
-        if(resultCode==1001){
-            if (checkSelfPermission(Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_DENIED){
+        if (resultCode == 1001) {
+            if (checkSelfPermission(Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_DENIED) {
                 loadPhotosFromGallery()
-            }else{
+            } else {
                 chooseImageGallery()
             }
         }
@@ -74,6 +77,17 @@ class ParentActivity : AppCompatActivity() {
             super.onActivityResult(requestCode, resultCode, data)
         }
 
+    }
+
+    private fun initializeName() {
+        val preferencesUser = PreferencesUserImpl(this)
+        preferencesUser.user?.let {
+            val headerView = binding.navView.getHeaderView(0)
+
+
+            headerView?.findViewById<TextView>(R.id.firstName)?.text = it.firstName
+            headerView?.findViewById<TextView>(R.id.lastName)?.text = it.lastName
+        }
     }
 
     private fun initializeAvatarClickListener() {

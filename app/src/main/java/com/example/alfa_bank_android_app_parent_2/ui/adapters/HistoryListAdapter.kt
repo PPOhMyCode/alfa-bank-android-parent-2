@@ -33,15 +33,15 @@ class HistoryListAdapter(
     override fun onBindViewHolder(holder: ItemHolder, position: Int) {
         when (val item = items[position]) {
             is String -> {
-                holder.dateTextView?.text = item.split("T")[0]
+                holder.dateTextView?.text ="${item.split("T")[0].split("-")[2]} ${months[item.split("T")[0].split("-")[1].toInt()]}"
             }
             is HistoryDish -> {
                 with(item) {
                     Picasso.get().load("https://storage.yandexcloud.net/systemimg/${id}.png")
                         .into(holder.dishImageView)
                     holder.dishImageView
-                    holder.sumTextView?.text = "-$sum"
-                    holder.weightTextView?.text = weight
+                    holder.sumTextView?.text = "-${sum.split(".")[0]} р"
+                    holder.weightTextView?.text = "${weight.split(".")[0]} г"
                     holder.nameTextViewDish?.text = name
                 }
             }
@@ -73,4 +73,22 @@ class HistoryListAdapter(
         var dishImageView: ImageView? = itemView.findViewById(R.id.dishImageView)
     }
 
+
+    companion object{
+
+        private val months = mapOf<Int,String>(
+            1 to "Января",
+            2 to "Февраля",
+            3 to "Марта",
+            4 to "Апреля",
+            5 to "Мая",
+            6 to "Июня",
+            7 to "Июля",
+            8 to "Августа",
+            9 to "Сентября",
+            10 to "Октября",
+            11 to "Ноября",
+            12 to "Декабря",
+        )
+    }
 }

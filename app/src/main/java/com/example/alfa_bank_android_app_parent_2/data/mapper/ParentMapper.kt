@@ -26,6 +26,7 @@ class ParentMapper {
     }
 
     fun mapHistoryDishDtoToHistoryDish(historyDishDtoItem: HistoryDishDtoItem):HistoryDish{
+
         return with(historyDishDtoItem){
             HistoryDish(dishId,name, weight.toString(),cost.toString(),date)
         }

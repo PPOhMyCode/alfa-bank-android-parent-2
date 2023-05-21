@@ -9,5 +9,6 @@ data class HistoryDish(
     var name: String,
     var weight: String,
     var sum: String,
-    var date:String
+    var date:String,
+    var count: String?= "1"
 ) : Parcelable

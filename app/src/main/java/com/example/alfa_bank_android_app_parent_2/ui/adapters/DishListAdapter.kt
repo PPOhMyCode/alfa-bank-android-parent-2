@@ -33,6 +33,7 @@ class DishListAdapter(var mode:String) : RecyclerView.Adapter<DishListAdapter.It
         with(dishes[position]) {
             holder.cost.text = "${cost.toInt()} р"
             holder.nameDish.text = name
+            //Picasso.get().load("https://storage.yandexcloud.net/systemimg/2.png").into(holder.dishImage)
             Picasso.get().load("https://storage.yandexcloud.net/systemimg/${id}.png").into(holder.dishImage)
             //holder.dishImage
         }

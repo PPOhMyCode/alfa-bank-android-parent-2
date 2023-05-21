@@ -113,6 +113,7 @@ class ParentRepositoryImpl(var context: Context) : ParentRepository {
     }
 
     override suspend fun loadHistoryDish(idChild: Int): List<HistoryDish>? = try {
+
         userApiFactory.loadHistoryDishes(idChild.toString()).map {
             mapper.mapHistoryDishDtoToHistoryDish(it)
         }
@@ -120,11 +121,12 @@ class ParentRepositoryImpl(var context: Context) : ParentRepository {
         null
     }
 
-    override suspend fun loadSheduler( ): List<String>?  = try{
-        userApiFactory.getSheduler("5Б").map {
-            it.Time
-
-            //TODO("Добавить тип блюда")
+    override suspend fun loadSheduler(childClass:String ): List<ScheduleItem>?  = try{
+        userApiFactory.getSheduler(childClass).map {
+            ScheduleItem(
+                title =  it.Time,
+                description = it.TypeMeal
+            )
         }
     } catch (e:HttpException){
         null

@@ -33,7 +33,7 @@ interface UserApiService {
     @POST("/orders")
     suspend fun makeOrder(@Body orderBody: OrderDto)
 
-    @GET("/timings/grade/{classC}")
-    suspend fun getSheduler(@Path("date") classC: String): ShedulerDtoContainer
+    @GET("/timings/grade/{childClass}")
+    suspend fun getSheduler(@Path("childClass") childClass: String): ShedulerDtoContainer
 
 }

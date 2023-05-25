@@ -25,5 +25,9 @@ interface ParentRepository {
 
     suspend fun loadSheduler(childClass:String ):List<ScheduleItem>?
 
+    suspend fun loadYearsRecipes(idChild: Int):List<String>
+
+    suspend fun loadMonthsRecipes(idChild: Int, year: String): List<String>
+
 
 }

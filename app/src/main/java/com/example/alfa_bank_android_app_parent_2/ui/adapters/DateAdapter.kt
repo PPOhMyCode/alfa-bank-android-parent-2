@@ -9,9 +9,9 @@ import com.example.alfa_bank_android_app_parent_2.R
 import com.example.alfa_bank_android_app_parent_2.domain.entiies.ReceiptsItem
 
 class DateAdapter(
-    private val date: List<String>
 ) : RecyclerView.Adapter<DateAdapter.ItemHolder>() {
 
+    var date: List<String> = listOf()
 
     var onItemClickListener: ((String) -> Unit)? = null
 

@@ -26,6 +26,7 @@ class ReceiptsFragment : Fragment() {
 
     private lateinit var binding: FragmentReceiptsBinding
     private lateinit var date:DateAdapter
+    private lateinit var receiptsListAdapter: ReceiptsAdapter
 
     private val viewModel by lazy {
         ViewModelProvider(this)[ReceiptsViewModel::class.java]
@@ -39,7 +40,7 @@ class ReceiptsFragment : Fragment() {
         binding = FragmentReceiptsBinding.inflate(inflater, container, false)
         return binding.root
     }
-    /**
+
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -53,7 +54,15 @@ class ReceiptsFragment : Fragment() {
     }
 
     private fun initializeRecyclerView() {
-        val receiptsListAdapter = ReceiptsAdapter(receipts)
+        receiptsListAdapter = ReceiptsAdapter()
+
+        viewModel.months.observe(requireActivity()){
+            receiptsListAdapter.receipts = it.map {
+                ReceiptsItem(it,"")
+            }
+            receiptsListAdapter.notifyDataSetChanged()
+        }
+
         receiptsListAdapter.onItemClickListener = {
             goToFragment(ReceiptFragment.newInstance(), it)
         }
@@ -67,12 +76,23 @@ class ReceiptsFragment : Fragment() {
 
     @SuppressLint("ClickableViewAccessibility")
     private fun initSearch() {
+
+        viewModel.loadYears()
+        date = DateAdapter()
+
         with(binding) {
 
-            date = DateAdapter(listOf("2023","2022","2021","2022"))
+            viewModel.years.observe(requireActivity()){
+                date.date = it
+                date.notifyDataSetChanged()
+            }
+
+
+
 
             date.onItemClickListener = {
-                Log.d("aasdsd",it)
+                viewModel.month = it
+                viewModel.loadMonths()
                 searchView.editText.setText(it)
             }
 
@@ -85,7 +105,7 @@ class ReceiptsFragment : Fragment() {
 
 
 
-            //!!!!
+
 
             searchView.editText.addTextChangedListener(
                 object : TextWatcher {
@@ -203,5 +223,5 @@ class ReceiptsFragment : Fragment() {
             ReceiptsItem("Декабрь", "2023")
         )
     }
-    */
+
 }

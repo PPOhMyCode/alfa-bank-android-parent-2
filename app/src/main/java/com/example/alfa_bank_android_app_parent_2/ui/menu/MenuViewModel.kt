@@ -73,7 +73,7 @@ class MenuViewModel(application: Application) : AndroidViewModel(application) {
                 for (dishCount in it) {
                     for (count in 0 until dishCount.value) {
                         makeOrderUseCase.invoke(
-                            "2023-03-$dayOfMonth",
+                            "2023-05-$dayOfMonth",
                             childId,
                             typeOfMeal.value,
                             dishCount.key.id

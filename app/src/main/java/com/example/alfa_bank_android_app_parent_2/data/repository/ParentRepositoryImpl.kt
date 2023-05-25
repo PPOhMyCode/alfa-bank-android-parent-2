@@ -131,4 +131,20 @@ class ParentRepositoryImpl(var context: Context) : ParentRepository {
     } catch (e:HttpException){
         null
     }
+
+    override suspend fun loadYearsRecipes(idChild: Int): List<String> = try{
+        userApiFactory.getYearsRecipes(idChild.toString()).map {
+            it.toString()
+        }
+    }catch (e:Exception){
+        listOf()
+    }
+
+    override suspend fun loadMonthsRecipes(idChild: Int, year: String): List<String> = try {
+        userApiFactory.getMonthsRecipes(idChild.toString(),year).map {
+            it.toString()
+        }
+    } catch (e:Exception){
+        listOf()
+    }
 }

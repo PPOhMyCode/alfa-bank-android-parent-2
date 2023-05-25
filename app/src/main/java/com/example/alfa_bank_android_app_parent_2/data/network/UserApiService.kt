@@ -36,4 +36,10 @@ interface UserApiService {
     @GET("/timings/grade/{childClass}")
     suspend fun getSheduler(@Path("childClass") childClass: String): ShedulerDtoContainer
 
+    @GET("/receipts/childrens/{id}/years")
+    suspend fun getYearsRecipes(@Path("id") id:String):RecipesYears
+
+    @GET("/receipts/childrens/{id}/years/{year}/months")
+    suspend fun getMonthsRecipes(@Path("id") id:String,@Path("year") year:String):RecipesMonths
+
 }

@@ -11,10 +11,10 @@ import com.example.alfa_bank_android_app_parent_2.domain.entiies.ReceiptsItem
 import org.w3c.dom.Text
 
 class ReceiptsAdapter(
-    private val receipts: List<ReceiptsItem>
 ) : RecyclerView.Adapter<ReceiptsAdapter.ItemHolder>() {
 
     var onItemClickListener: ((ReceiptsItem) -> Unit)? = null
+    var receipts: List<ReceiptsItem> = listOf()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ItemHolder {
         val itemHolder = LayoutInflater.from(parent.context)

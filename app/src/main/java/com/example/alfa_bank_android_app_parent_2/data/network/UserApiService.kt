@@ -17,6 +17,15 @@ interface UserApiService {
         @Path("type") type: String
     ): DishDtoContainer
 
+    @GET("/defaultmenus/date/{date}/type/{type}")
+    suspend fun loadDefaultDishes(
+        @Path("date") date: String,
+        @Path("type") type: String
+    ): DishDtoContainer
+
+
+
+
     @GET("/dishes/{id}")
     suspend fun loadDish(@Path("id") id: String): DescriptionDish
 

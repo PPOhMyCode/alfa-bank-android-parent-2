@@ -25,9 +25,9 @@
             android:id="@+id/dishImageView"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="@color/A7D7AF"
+            android:background="@color/f2f2f2"
             android:scaleType="centerCrop"
-            android:src="@drawable/ic_launcher_foreground" />
+            android:src="@drawable/baseline_person_24" />
     </androidx.cardview.widget.CardView>
 
     <androidx.appcompat.widget.LinearLayoutCompat

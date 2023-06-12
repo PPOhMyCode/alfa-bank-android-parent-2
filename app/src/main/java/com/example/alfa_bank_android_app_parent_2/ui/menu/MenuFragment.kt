@@ -7,6 +7,7 @@ import android.icu.number.NumberFormatter.with
 import android.icu.number.NumberRangeFormatter.with
 
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -74,6 +75,7 @@ class MenuFragment : Fragment() {
         mode = this.arguments?.getString(MODE) ?: CHOOSE_MENU_MODE
         if (mode == CHOOSE_MENU_MODE) {
             binding.makeOrderButton.visibility = View.GONE
+            binding.standard.visibility = View.GONE
         }
     }
 
@@ -230,6 +232,7 @@ class MenuFragment : Fragment() {
     }
 
     private fun setDefaultBackgroundColorDays() {
+        binding.standard.setCardBackgroundColor(resources.getColor(R.color.fbfff9))
         binding.mondayCardView.setCardBackgroundColor(resources.getColor(R.color.fbfff9))
         binding.tuesdayCardView.setCardBackgroundColor(resources.getColor(R.color.fbfff9))
         binding.wednesdayCardView.setCardBackgroundColor(resources.getColor(R.color.fbfff9))
@@ -238,35 +241,56 @@ class MenuFragment : Fragment() {
     }
 
     private fun initializeDayClickListener() {
+
+        binding.standard.setOnClickListener{
+
+            Log.d("ADF",viewModel.isNeedDefaultMenu.toString())
+            if(viewModel.isNeedDefaultMenu){
+                binding.standard.setCardBackgroundColor(resources.getColor(R.color.eafbe2))
+            }else{
+                binding.standard.setCardBackgroundColor(resources.getColor(R.color.fbfff9))
+            }
+
+            viewModel.isNeedDefaultMenu = !viewModel.isNeedDefaultMenu
+            binding.progressBar3.visibility = View.VISIBLE
+            loadDishes()
+        }
+
+
         binding.progressBar3.visibility = View.VISIBLE
         binding.mondayCardView.setOnClickListener {
             setDefaultBackgroundColorDays()
             binding.mondayCardView.setCardBackgroundColor(resources.getColor(R.color.eafbe2))
             dayOfWeek = DayOfWeek.MONDAY
+            binding.progressBar3.visibility = View.VISIBLE
             loadDishes()
         }
         binding.tuesdayCardView.setOnClickListener {
             setDefaultBackgroundColorDays()
             binding.tuesdayCardView.setCardBackgroundColor(resources.getColor(R.color.eafbe2))
             dayOfWeek = DayOfWeek.TUESDAY
+            binding.progressBar3.visibility = View.VISIBLE
             loadDishes()
         }
         binding.wednesdayCardView.setOnClickListener {
             setDefaultBackgroundColorDays()
             binding.wednesdayCardView.setCardBackgroundColor(resources.getColor(R.color.eafbe2))
             dayOfWeek = DayOfWeek.WEDNESDAY
+            binding.progressBar3.visibility = View.VISIBLE
             loadDishes()
         }
         binding.thursdayCardView.setOnClickListener {
             setDefaultBackgroundColorDays()
             binding.thursdayCardView.setCardBackgroundColor(resources.getColor(R.color.eafbe2))
             dayOfWeek = DayOfWeek.THURSDAY
+            binding.progressBar3.visibility = View.VISIBLE
             loadDishes()
         }
         binding.fridayCardView.setOnClickListener {
             setDefaultBackgroundColorDays()
             binding.fridayCardView.setCardBackgroundColor(resources.getColor(R.color.eafbe2))
             dayOfWeek = DayOfWeek.FRIDAY
+            binding.progressBar3.visibility = View.VISIBLE
             loadDishes()
         }
     }
@@ -276,7 +300,7 @@ class MenuFragment : Fragment() {
         val dateOfDayOfWeek = firstDateOfWeek.with(TemporalAdjusters.nextOrSame(this))
         return when (mode) {
             CHOOSE_MENU_MODE -> dateOfDayOfWeek.dayOfMonth
-            LOAD_MENU_MODE -> dateOfDayOfWeek.dayOfMonth + 7
+            LOAD_MENU_MODE -> (dateOfDayOfWeek.dayOfMonth + 7)%31
             else -> throw Exception()
         }
     }

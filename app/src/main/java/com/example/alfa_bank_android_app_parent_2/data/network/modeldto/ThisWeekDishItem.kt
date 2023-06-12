@@ -26,5 +26,9 @@ data class ThisWeekDishItem(
 
     @SerializedName("TypeMealId")
     @Expose
-    val TypeMealId: Int
+    val TypeMealId: Int,
+
+    @SerializedName("Count")
+    @Expose
+    val Count: Int = 0
 )

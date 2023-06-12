@@ -25,7 +25,7 @@ class DateAdapter(
 
     override fun onBindViewHolder(holder: ItemHolder, position: Int) {
         with(holder) {
-            dateTextView.text = date[position]
+            dateTextView.text = date[position].replace("[","")
         }
         holder.itemView.setOnClickListener() {
             onItemClickListener?.invoke(date[position])

@@ -29,5 +29,7 @@ interface ParentRepository {
 
     suspend fun loadMonthsRecipes(idChild: Int, year: String): List<String>
 
+    suspend fun loadDefaultMenu(date:String, type: String):List<Dish>?
+
 
 }

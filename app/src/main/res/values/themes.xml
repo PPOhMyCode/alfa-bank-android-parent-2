@@ -24,6 +24,7 @@
         <item name="android:navigationBarColor">@color/fbfff9</item>
         <!--<item name="android:background"> @color/fbfff9</item> -->
         <item name="android:strokeColor">@color/Transperent</item>
+        <item name="android:windowLightStatusBar">true</item>
 
         <item name="colorSurface">@color/md_theme_light_surface</item>
         <item name="colorOnSurface">@color/md_theme_light_onSurface</item>

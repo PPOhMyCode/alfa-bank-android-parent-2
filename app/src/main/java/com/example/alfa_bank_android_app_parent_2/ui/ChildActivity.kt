@@ -6,6 +6,7 @@ import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.View
+import android.widget.ImageView
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.GravityCompat
@@ -20,6 +21,7 @@ import com.example.alfa_bank_android_app_parent_2.domain.entiies.ReceiptsItem
 import com.example.alfa_bank_android_app_parent_2.ui.menu.MenuFragment
 
 import com.example.alfa_bank_android_app_parent_2.ui.history.NutritionHistoryFragment
+import com.example.alfa_bank_android_app_parent_2.ui.iseat.IsEatFragment
 import com.example.alfa_bank_android_app_parent_2.ui.receipts.ReceiptsFragment
 import com.example.alfa_bank_android_app_parent_2.ui.sheduler.SchedulerFragment
 import com.google.android.material.datepicker.MaterialDatePicker
@@ -135,7 +137,7 @@ class ChildActivity : AppCompatActivity() {
 
     fun closeDrawer(receiptsItem:ReceiptsItem) {
         type = false
-        binding.appBarMain.firstTextView.text = receiptsItem.year+" "+receiptsItem.month
+        binding.appBarMain.firstTextView.text = (receiptsItem.year+" "+receiptsItem.month).replace("[","").replace("]","").replace("10","").replace(" ","").replace(".","").replace(",","").replace("0","")
         binding.appBarMain.buttonNav.setImageResource(R.drawable.ic_baseline_navigate_before_24)
         lifecycleScope.launch(context = Dispatchers.Main) {
             binding.drawerLayout.closeDrawer(GravityCompat.START)
@@ -189,7 +191,21 @@ class ChildActivity : AppCompatActivity() {
             with(binding.navView.getHeaderView(0)) {
                 findViewById<TextView>(R.id.name).text = "${it.firstName} ${it.lastName}"
                 findViewById<TextView>(R.id.schoolClass).text = it.schoolClass
+
+                findViewById<ImageView>(R.id.dishImageView).setOnClickListener {
+
+                }
+
                 findViewById<TextView>(R.id.isEat).setOnClickListener {
+
+                    goToFragment(IsEatFragment.newInstance())
+
+                    binding.appBarMain.copyImageButton.visibility = View.GONE
+                    binding.appBarMain.secondTextView.visibility = View.GONE
+                    binding.appBarMain.firstTextView.text = "Питание"
+
+
+                    /**
                     val datePicker =
                         MaterialDatePicker.Builder.dateRangePicker()
                             .setTitleText("Дни, когда ребенк не будет питаться")
@@ -202,6 +218,7 @@ class ChildActivity : AppCompatActivity() {
                             .build()
 
                     datePicker.show(supportFragmentManager, "Tag")
+                    */
                 }
             }
         }

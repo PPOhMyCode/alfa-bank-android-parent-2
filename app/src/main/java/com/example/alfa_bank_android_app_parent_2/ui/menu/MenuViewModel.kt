@@ -8,10 +8,7 @@ import com.example.alfa_bank_android_app_parent_2.data.preferences.PreferencesCh
 import com.example.alfa_bank_android_app_parent_2.data.preferences.PreferencesCopyImpl
 import com.example.alfa_bank_android_app_parent_2.data.preferences.PreferencesUserImpl
 import com.example.alfa_bank_android_app_parent_2.data.repository.ParentRepositoryImpl
-import com.example.alfa_bank_android_app_parent_2.domain.LoadDishesThisWeekUseCase
-import com.example.alfa_bank_android_app_parent_2.domain.LoadDishesUseCase
-import com.example.alfa_bank_android_app_parent_2.domain.MakeOrderUseCase
-import com.example.alfa_bank_android_app_parent_2.domain.ParentRepository
+import com.example.alfa_bank_android_app_parent_2.domain.*
 import com.example.alfa_bank_android_app_parent_2.domain.entiies.Dish
 import com.example.alfa_bank_android_app_parent_2.domain.entiies.TypeOfMeal
 import kotlinx.coroutines.launch
@@ -30,6 +27,11 @@ class MenuViewModel(application: Application) : AndroidViewModel(application) {
     private val loadDishesThisWeekUseCase = LoadDishesThisWeekUseCase(repository)
     private var loadDishesUseCase = LoadDishesUseCase(repository)
     private var makeOrderUseCase = MakeOrderUseCase(repository)
+
+    private var loadDefaultDishUseCase = LoadDefaultDishesUseCase(repository)
+
+    var isNeedDefaultMenu = true
+
     private var childId = PreferencesChildImpl(application.applicationContext).idChild
 
     var statusOrder: MutableLiveData<String> = MutableLiveData<String>()
@@ -44,22 +46,33 @@ class MenuViewModel(application: Application) : AndroidViewModel(application) {
         val year = currentDate[2].split(" ")[0]
         val month = currentDate[1]
 
-
+        //dishes.value = listOf()
 
         viewModelScope.launch {
             when (mode) {
                 MenuFragment.LOAD_MENU_MODE -> {
-                    dishes.value =
-                        loadDishesUseCase.invoke(
+
+                    if (!isNeedDefaultMenu) {
+                        dishes.value = loadDefaultDishUseCase.invoke(
                             "$year-0$month-$dayOfMonth",
                             typeOfMeal.value.toString()
                         )
+                    } else {
+                        dishes.value =
+                            loadDishesUseCase.invoke(
+                                "$year-0$month-$dayOfMonth",
+                                typeOfMeal.value.toString()
+                            )
+                    }
                 }
                 MenuFragment.CHOOSE_MENU_MODE -> {
+
                     dishes.value = loadDishesThisWeekUseCase.invoke(
                         "$year-0$month-$dayOfMonth",
                         typeOfMeal.value.toString()
                     )
+
+
                 }
             }
         }

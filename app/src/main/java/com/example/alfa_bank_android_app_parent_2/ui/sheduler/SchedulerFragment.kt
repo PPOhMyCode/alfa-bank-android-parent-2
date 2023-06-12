@@ -42,6 +42,9 @@ class SchedulerFragment : Fragment() {
         }
 
         viewModel.shedulers.observe(requireActivity()){
+
+            binding.progressBar2.visibility = View.GONE
+
             receiptsListAdapter.shedulers = it
             receiptsListAdapter.notifyDataSetChanged()
         }

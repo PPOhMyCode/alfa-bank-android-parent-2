@@ -51,6 +51,7 @@
                 android:layout_height="wrap_content"
                 android:buttonTint="@color/A7D7AF"
                 android:text="@string/DefaultDay"
+
                 android:textColor="@color/black"/>
 
             <CheckBox

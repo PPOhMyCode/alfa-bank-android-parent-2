@@ -26,8 +26,8 @@ class ReceiptsAdapter(
 
     override fun onBindViewHolder(holder: ItemHolder, position: Int) {
         with(holder) {
-            month.text = receipts[position].month
-            year.text = receipts[position].year
+            month.text = receipts[position].month.replace("[","").replace("]","").replace(",","").replace("10.0","")
+            year.text = receipts[position].year.replace("[","").replace("]","").replace(",","").replace("10.0","")
         }
         holder.itemView.setOnClickListener(){
             onItemClickListener?.invoke(receipts[position])

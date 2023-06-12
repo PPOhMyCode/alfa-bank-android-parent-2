@@ -1,6 +1,7 @@
 package com.example.alfa_bank_android_app_parent_2.data.repository
 
 import android.content.Context
+import android.util.Log
 import android.widget.Toast
 import com.example.alfa_bank_android_app_parent_2.data.mapper.ParentMapper
 import com.example.alfa_bank_android_app_parent_2.data.network.ApiFactory
@@ -96,7 +97,7 @@ class ParentRepositoryImpl(var context: Context) : ParentRepository {
             )
         }
         result
-    } catch (e: HttpException) {
+    } catch (e: Exception) {
         null
     }
 
@@ -108,7 +109,7 @@ class ParentRepositoryImpl(var context: Context) : ParentRepository {
     ): String = try {
         userApiFactory.makeOrder(OrderDto(childrenId, data, dishId, typeMeal))
         "Ок"
-    } catch (e: HttpException) {
+    } catch (e: Exception) {
         "Ошибка"
     }
 
@@ -117,7 +118,7 @@ class ParentRepositoryImpl(var context: Context) : ParentRepository {
         userApiFactory.loadHistoryDishes(idChild.toString()).map {
             mapper.mapHistoryDishDtoToHistoryDish(it)
         }
-    } catch (e: HttpException) {
+    } catch (e: Exception) {
         null
     }
 
@@ -128,7 +129,7 @@ class ParentRepositoryImpl(var context: Context) : ParentRepository {
                 description = it.TypeMeal
             )
         }
-    } catch (e:HttpException){
+    } catch (e:Exception){
         null
     }
 
@@ -147,4 +148,30 @@ class ParentRepositoryImpl(var context: Context) : ParentRepository {
     } catch (e:Exception){
         listOf()
     }
+
+    override suspend fun loadDefaultMenu(date: String, type: String): List<Dish>?  =
+        try {
+            val dishDtoContainer = userApiFactory.loadDefaultDishes(date, type)
+            val result = mutableListOf<Dish>()
+            for (dishDto in dishDtoContainer) {
+                val descriptionDish = userApiFactory.loadDish(dishDto.DishId.toString())
+                result.add(
+                    Dish(
+                        dishDto.DishId,
+                        descriptionDish.Name,
+                        descriptionDish.Description,
+                        descriptionDish.Weight.toFloat(),
+                        descriptionDish.Cost.toFloat(),
+                        descriptionDish.Calories.toFloat(),
+                        descriptionDish.Proteins.toFloat(),
+                        descriptionDish.Fats.toFloat(),
+                        descriptionDish.Carbohydrates.toFloat()
+                    )
+                )
+            }
+            result
+        } catch (e: Exception) {
+            Log.d("dfasa",e.toString())
+            null
+        }
 }
